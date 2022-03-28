@@ -1,0 +1,9 @@
+{
+	"directory": "weekmami",
+	"defaultZoom": 0.65,
+	"isPixelStage": false,
+
+	"boyfriend": [790, 70],
+	"girlfriend": [400, 130],
+	"opponent": [130, 70]
+}
