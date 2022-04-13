@@ -302,6 +302,9 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		if (FlxG.sound.music != null)
+			Conductor.songPosition = FlxG.sound.music.time;
+
 		ticketIcon.x = menuItems.members[2].x + 625;
 		ticketIcon.y = menuItems.members[2].y + 50;
 
