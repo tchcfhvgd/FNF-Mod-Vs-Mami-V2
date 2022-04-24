@@ -258,6 +258,8 @@ class PlayState extends MusicBeatState
 
 	public var defaultCamZoom:Float = 1.05;
 
+	var oldDefaultCamZoom:Float = 1.05;
+
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
 
@@ -432,6 +434,11 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		if (curSong == 'Salvation')
+			{
+				camHUD.alpha = 0.0;
+			}
+
 		// addShaderToCamera('game', new ChromaticAberrationEffect(0.01));
 		// addShaderToCamera('hud', new ChromaticAberrationEffect(0.01));
 
@@ -463,6 +470,8 @@ class PlayState extends MusicBeatState
 		GF_Y = stageData.girlfriend[1];
 		DAD_X = stageData.opponent[0];
 		DAD_Y = stageData.opponent[1];
+
+		oldDefaultCamZoom = defaultCamZoom;
 
 		if (stageData.camera_speed != null)
 			cameraSpeed = stageData.camera_speed;
@@ -642,9 +651,12 @@ class PlayState extends MusicBeatState
 		add(dadGroup);
 		add(boyfriendGroup);
 
-		if (curStage == 'spooky')
+		if (curStage == 'subway-holy')
 		{
-			add(halloweenWhite);
+			add(gunSwarmFront);
+			gunSwarmFront.velocity.set(8500, -1500);
+			add(darknessOverlay);
+			add(blackOverlay);
 		}
 
 		#if LUA_ALLOWED
@@ -1055,66 +1067,6 @@ class PlayState extends MusicBeatState
 		{
 			switch (daSong)
 			{
-				case "monster":
-					var whiteScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.WHITE);
-					add(whiteScreen);
-					whiteScreen.scrollFactor.set();
-					whiteScreen.blend = ADD;
-					camHUD.visible = false;
-					snapCamFollowToPos(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-					inCutscene = true;
-
-					FlxTween.tween(whiteScreen, {alpha: 0}, 1, {
-						startDelay: 0.1,
-						ease: FlxEase.linear,
-						onComplete: function(twn:FlxTween)
-						{
-							camHUD.visible = true;
-							remove(whiteScreen);
-							startCountdown();
-						}
-					});
-					FlxG.sound.play(Paths.soundRandom('thunder_', 1, 2));
-					if (gf != null)
-						gf.playAnim('scared', true);
-					boyfriend.playAnim('scared', true);
-
-				case "winter-horrorland":
-					var blackScreen:FlxSprite = new FlxSprite().makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
-					add(blackScreen);
-					blackScreen.scrollFactor.set();
-					camHUD.visible = false;
-					inCutscene = true;
-
-					FlxTween.tween(blackScreen, {alpha: 0}, 0.7, {
-						ease: FlxEase.linear,
-						onComplete: function(twn:FlxTween)
-						{
-							remove(blackScreen);
-						}
-					});
-					FlxG.sound.play(Paths.sound('Lights_Turn_On'));
-					snapCamFollowToPos(400, -2050);
-					FlxG.camera.focusOn(camFollow);
-					FlxG.camera.zoom = 1.5;
-
-					new FlxTimer().start(0.8, function(tmr:FlxTimer)
-					{
-						camHUD.visible = true;
-						remove(blackScreen);
-						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 2.5, {
-							ease: FlxEase.quadInOut,
-							onComplete: function(twn:FlxTween)
-							{
-								startCountdown();
-							}
-						});
-					});
-				case 'senpai' | 'roses' | 'thorns':
-					if (daSong == 'roses')
-						FlxG.sound.play(Paths.sound('ANGRY'));
-					schoolIntro(doof);
-
 				default:
 					startCountdown();
 			}
@@ -1636,6 +1588,7 @@ class PlayState extends MusicBeatState
 			callOnLuas('onCountdownStarted', []);
 
 			var swagCounter:Int = 0;
+			if (curSong == 'Salvation') swagCounter = 4;
 
 			if (skipCountdown || startOnTime > 0)
 			{
@@ -3383,6 +3336,24 @@ class PlayState extends MusicBeatState
 				if (Math.isNaN(camZoomDepth))
 					camZoomDepth = 1.0;
 
+			case 'Change Game Alpha':
+				var val1:Float = Std.parseFloat(value1);
+				var val2:Float = Std.parseFloat(value2);
+
+				if(Math.isNaN(val1)) val1 = 1.0;
+				if(Math.isNaN(val2)) val2 = 1.0;
+
+				FlxTween.tween(camGame, {alpha: val1}, val2, {ease: FlxEase.quadInOut});
+
+			case 'Change HUD Alpha':
+				var val1:Float = Std.parseFloat(value1);
+				var val2:Float = Std.parseFloat(value2);
+
+				if(Math.isNaN(val1)) val1 = 1.0;
+				if(Math.isNaN(val2)) val2 = 1.0;
+
+				FlxTween.tween(camHUD, {alpha: val1}, val2, {ease: FlxEase.quadInOut});
+
 			case 'Health Drain Note':
 				healthDrainNoteAmt = Std.parseFloat(value1);
 				healthDrainLowestPoint = Std.parseFloat(value2);
@@ -3391,6 +3362,79 @@ class PlayState extends MusicBeatState
 					healthDrainNoteAmt = 0.0;
 				if (Math.isNaN(healthDrainLowestPoint))
 					healthDrainLowestPoint = 0.05;
+			
+			case 'Camera Zoom Adv.':
+				var value1:Float = Std.parseFloat(value1);
+				var value2:Float = Std.parseFloat(value2);
+
+				if (Math.isNaN(value2)) value2 = 0.5;
+				if (Math.isNaN(value1)) //Depth (Blank for reset to default)
+					{
+						FlxTween.tween(this, {defaultCamZoom: oldDefaultCamZoom}, value2, {ease: FlxEase.quadOut});
+					}
+				else
+					{
+						FlxTween.tween(this, {defaultCamZoom: defaultCamZoom + value1}, value2, {ease: FlxEase.quadOut});
+					}
+			
+			case 'Salvation Master Event':
+				var value1:Int = Std.parseInt(value1);
+				var value2:Int = Std.parseInt(value2);
+				if (Math.isNaN(value1)) value1 = 0;
+				if (Math.isNaN(value2)) value2 = 0;
+				switch (value1) // What effect should change?
+				{
+					case 1: // "thisBitchSnapped" variable toggle
+						if (value2 == 1) 
+						{
+							thisBitchSnapped = true;
+							if (ClientPrefs.flashing) FlxG.camera.flash(FlxColor.WHITE, 3);
+						}
+						else
+						{
+							thisBitchSnapped = false;
+						}
+					case 2: // Blackness effect
+					{
+						if (value2 == 1)
+							{
+								blackOverlay.alpha = 1;
+								FlxTween.tween(blackOverlay, {alpha: 0}, 1.0, {ease: FlxEase.quartOut});
+							}
+						else
+							{
+								blackOverlay.alpha = 0.8;
+								FlxTween.tween(blackOverlay, {alpha: 1}, 2, {ease: FlxEase.quartOut});
+							}
+					}
+					case 3: // BAD APPLE effect
+					{
+						if (value2 == 1) // 1 turns it off, while any other number would be the duration of the fade. It's weird, I know.
+							{
+								whiteBG.alpha = 1.0;
+								boyfriend.color = FlxColor.BLACK;
+								gf.color = FlxColor.BLACK;
+								dad.color = FlxColor.BLACK;
+								weebGorl.color = FlxColor.BLACK;
+								otherBGStuff.color = FlxColor.BLACK;
+								lampsSubway.color = FlxColor.BLACK;
+								stageFront.color = FlxColor.BLACK;
+							}
+						else
+							{
+								if (Math.isNaN(value2)) value2 = 5;
+								FlxTween.color(boyfriend, value2, FlxColor.BLACK, FlxColor.WHITE, {ease: FlxEase.quadInOut});
+								FlxTween.color(gf, value2, FlxColor.BLACK, FlxColor.WHITE, {ease: FlxEase.quadInOut});
+								FlxTween.color(weebGorl, value2, FlxColor.BLACK, FlxColor.WHITE, {ease: FlxEase.quadInOut});
+								FlxTween.color(otherBGStuff, value2, FlxColor.BLACK, FlxColor.WHITE, {ease: FlxEase.quadInOut});
+								FlxTween.color(lampsSubway, value2, FlxColor.BLACK, FlxColor.WHITE, {ease: FlxEase.quadInOut});
+								FlxTween.color(stageFront, value2, FlxColor.BLACK, FlxColor.WHITE, {ease: FlxEase.quadInOut});
+								FlxTween.color(dad, value2, FlxColor.BLACK, FlxColor.WHITE, {ease: FlxEase.quadInOut});
+								FlxTween.tween(whiteBG, {alpha: 0}, value2, {ease: FlxEase.quartOut});
+							}
+					}
+				}
+
 		}
 		callOnLuas('onEvent', [eventName, value1, value2]);
 	}
@@ -4968,6 +5012,40 @@ class PlayState extends MusicBeatState
 			lightningStrikeShit();
 		}
 		lastBeatHit = curBeat;
+
+		// Mami Salvation Things
+		// Too lazy to rewrite it to be better :p
+
+		if (thisBitchSnapped && curStage == 'subway-holy')
+			{
+				if (gunSwarmFront.alpha <= 0.0)
+					{
+					gunSwarmFront.alpha += 1;
+					gunSwarmBack.alpha += 1;
+					if (FlxG.save.data.flashingLights)
+						FlxG.camera.flash(FlxColor.WHITE, 3);
+					}
+				}
+		else if (!thisBitchSnapped && curStage == 'subway-holy')
+			{
+				if (gunSwarmFront.alpha >= 0.01)
+					{
+					new FlxTimer().start(.035, function(tmr:FlxTimer)
+						{
+							gunSwarmFront.alpha -= .1;
+							gunSwarmBack.alpha -= .1;
+						},10);
+					}
+			}
+
+		if (thisBitchSnapped && curStage == 'subway-holy')
+			{
+				camera.shake(0.005,0.25);
+				camHUD.shake(0.005,0.25);
+			}
+
+		// End of Salvation Stuff
+
 
 		setOnLuas('curBeat', curBeat); // DAWGG?????
 		callOnLuas('onBeatHit', []);

@@ -88,7 +88,11 @@ class ChartingState extends MusicBeatState
 		['Change Character', "Value 1: Character to change (Dad, BF, GF)\nValue 2: New character's name"],
 		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\nValue 2: Time it takes to change fully in seconds."],
 		['Camera Zoom Freq/Depth', "Value 1: How much will it zoom every X 4 beats.\nValue 2: How much will it zoom in."],
-		['Health Drain Note', "Value 1: How much health is lost per note by enemy.\nValue 2: How much health the player needs to be for it\nto stop being effective."]
+		['Change Game Alpha', "Value 1: Set the alpha of the game.\nValue 2: How long it will take to change."],
+		['Change HUD Alpha', "Value 1: Set the alpha of the HUD.\nValue 2: How long it will take to change."],
+		['Health Drain Note', "Value 1: How much health is lost per note by enemy.\nValue 2: How much health the player needs to be for it\nto stop being effective."],
+		['Camera Zoom Adv.', "Value 1: Zoom in Depth (blank for reset)\nValue 2: How long will it take to complete this."],
+		['Salvation Master Event', "Value 1: Type of event.\nValue 2: If applicable, effectiveness/duration of the event.\nVALUE 1\n1 = thisBitchSnapped Var\n2 = Blackness Effect"]
 	];
 
 	var _file:FileReference;
