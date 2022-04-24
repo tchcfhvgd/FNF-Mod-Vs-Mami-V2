@@ -581,11 +581,11 @@ class PlayState extends MusicBeatState
 				stageFront = new BGSprite('bg-holy/HOLY_floor', -500, 600, 0.9, 0.9);
 				add(stageFront);
 
-				lampsSubway = new BGSprite('bg-holy/HOLY_BGLampLights', -500, -300, 0.9, 0.9);
-				add(lampsSubway);
-
 				lampPole = new BGSprite('bg-subway/BGLamps', -500, -300, 0.9, 0.9);
 				add(lampPole);
+
+				lampsSubway = new BGSprite('bg-holy/HOLY_BGLampLights', -500, -300, 0.9, 0.9);
+				add(lampsSubway);
 
 				otherBGStuff = new BGSprite('bg-holy/HOLY_objects', -530, -50, 0.9, 0.9);
 				add(otherBGStuff);
@@ -657,6 +657,23 @@ class PlayState extends MusicBeatState
 			gunSwarmFront.velocity.set(8500, -1500);
 			add(darknessOverlay);
 			add(blackOverlay);
+
+			new FlxTimer().start(0.35, function(tmr:FlxTimer)
+				{
+					if (FlxG.random.bool(33))
+						{
+							lampsSubway.visible = !lampsSubway.visible;
+	
+							if (lampsSubway.visible)
+								{
+									darknessOverlay.alpha = 0.35;
+								}
+							else
+								{
+									darknessOverlay.alpha = 0.45;
+								}
+						}
+				},0);
 		}
 
 		#if LUA_ALLOWED
@@ -3409,7 +3426,7 @@ class PlayState extends MusicBeatState
 					}
 					case 3: // BAD APPLE effect
 					{
-						if (value2 == 1) // 1 turns it off, while any other number would be the duration of the fade. It's weird, I know.
+						if (value2 == 1) // 1 turns it on, while any other number would be the duration of the fade. It's weird, I know.
 							{
 								whiteBG.alpha = 1.0;
 								boyfriend.color = FlxColor.BLACK;

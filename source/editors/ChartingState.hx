@@ -92,7 +92,7 @@ class ChartingState extends MusicBeatState
 		['Change HUD Alpha', "Value 1: Set the alpha of the HUD.\nValue 2: How long it will take to change."],
 		['Health Drain Note', "Value 1: How much health is lost per note by enemy.\nValue 2: How much health the player needs to be for it\nto stop being effective."],
 		['Camera Zoom Adv.', "Value 1: Zoom in Depth (blank for reset)\nValue 2: How long will it take to complete this."],
-		['Salvation Master Event', "Value 1: Type of event.\nValue 2: If applicable, effectiveness/duration of the event.\nVALUE 1\n1 = thisBitchSnapped Var\n2 = Blackness Effect"]
+		['Salvation Master Event', "Value 1: Type of event.\nValue 2: If applicable, effectiveness/duration of the event.\nVALUE 1\n1 = thisBitchSnapped Var\n2 = Blackness Effect\n3 = Bad Apple Effect"]
 	];
 
 	var _file:FileReference;
