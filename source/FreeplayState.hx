@@ -1,5 +1,6 @@
 package;
 
+import flixel.tweens.FlxEase;
 #if desktop
 import Discord.DiscordClient;
 #end
@@ -222,6 +223,11 @@ class FreeplayState extends MusicBeatState
 	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
+		FlxG.camera.zoom = FlxMath.lerp(1, FlxG.camera.zoom, 0.85); //Camera Zoom Lerp
+
+		if (FlxG.sound.music != null)
+			Conductor.songPosition = FlxG.sound.music.time;
+
 		if (FlxG.sound.music.volume < 0.7)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
@@ -373,6 +379,13 @@ class FreeplayState extends MusicBeatState
 		}
 		super.update(elapsed);
 	}
+
+	override function beatHit()
+		{
+			FlxG.camera.zoom += 0.02;
+
+			super.beatHit();
+		}
 
 	public static function destroyFreeplayVocals() {
 		if(vocals != null) {

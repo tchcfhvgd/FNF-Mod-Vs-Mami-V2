@@ -1,5 +1,6 @@
 package;
 
+import flixel.math.FlxMath;
 #if desktop
 import Discord.DiscordClient;
 import sys.thread.Thread;
@@ -401,6 +402,8 @@ class TitleState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		FlxG.camera.zoom = FlxMath.lerp(1, FlxG.camera.zoom, 0.85);
+		
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
 		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
@@ -588,10 +591,12 @@ class TitleState extends MusicBeatState
 			if (mamiTitle != null)
 				mamiTitle.animation.play('idle', true);
 		}
+		
 		if (curBeat % 4 == 0)
 		{
-			FlxTween.tween(FlxG.camera, {zoom: 1.02}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
+			FlxG.camera.zoom += 0.02;
 		}
+
 		if (logoBl != null)
 			logoBl.animation.play('bump', true);
 
