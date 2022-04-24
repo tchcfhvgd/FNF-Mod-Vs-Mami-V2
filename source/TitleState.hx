@@ -591,8 +591,8 @@ class TitleState extends MusicBeatState
 			if (mamiTitle != null)
 				mamiTitle.animation.play('idle', true);
 		}
-		
-		if (curBeat % 4 == 0)
+
+		if (curBeat % 4 == 1)
 		{
 			FlxG.camera.zoom += 0.02;
 		}

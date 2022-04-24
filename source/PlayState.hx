@@ -315,19 +315,22 @@ class PlayState extends MusicBeatState
 	// Stage: Subway
 	var stageFront:BGSprite;
 	var lampsSubway:BGSprite;
-	var lampsLeft:BGSprite;
+	var lampPole:BGSprite;
 	var weebGorl:BGSprite;
 	var gorls:BGSprite;
 	var otherBGStuff:BGSprite;
 	var connectLight:FlxSprite;
 
 	// Stage: Subway (Holy)
-	var whiteBG:FlxSprite;
-	var gunSwarmBack:FlxBackdrop;
 	var holyHomura:FlxSprite;
+	//Salvation FX
+	var whiteBG:FlxSprite;
+	var gunSwarm:FlxSprite;
+	var gunSwarmBack:FlxBackdrop;
 	var gunSwarmFront:FlxBackdrop;
 	var darknessOverlay:FlxSprite;
 	var blackOverlay:FlxSprite;
+	var thisBitchSnapped:Bool = false;
 
 	// Custom Note Vars
 	var holyNoteDmg:Float = 0.25;
@@ -523,8 +526,8 @@ class PlayState extends MusicBeatState
 				lampsSubway = new BGSprite('bg-subway/BGLamps', -500, -300, 0.9, 0.9);
 				add(lampsSubway);
 
-				lampsLeft = new BGSprite('bg-subway/BGLampLights', -500, -300, 0.9, 0.9);
-				add(lampsLeft);
+				lampPole = new BGSprite('bg-subway/BGLampLights', -500, -300, 0.9, 0.9);
+				add(lampPole);
 
 				weebGorl = new BGSprite('bg-subway/BGbackgirl', 1200, 0, 0.9, 0.9, ['Symbol 6 instance 1'], true);
 				add(weebGorl);
@@ -552,31 +555,62 @@ class PlayState extends MusicBeatState
 				var trainSubway:BGSprite = new BGSprite('bg-subway/BGTrain', -500, -100, 0.9, 0.9);
 				add(trainSubway);
 
-				stageFront = new BGSprite('bg-subway/BGFloor', -500, 600, 0.9, 0.9);
+				whiteBG = new FlxSprite(-480, -480).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.WHITE);
+				whiteBG.updateHitbox();
+				whiteBG.antialiasing = true;
+				whiteBG.scrollFactor.set(0, 0);
+				whiteBG.active = false;
+				whiteBG.alpha = 0.0;
+				add(whiteBG);
+
+				gunSwarmBack = new FlxBackdrop(Paths.image('bg-holy/HOLY_gunsbackconstant'), 1, 0, true, true);
+				gunSwarmBack.scrollFactor.set(0.8, 0);
+				add(gunSwarmBack);
+				gunSwarmBack.velocity.set(-8500, 1500);
+				gunSwarmBack.alpha = 0.0;
+
+				stageFront = new BGSprite('bg-holy/HOLY_floor', -500, 600, 0.9, 0.9);
 				add(stageFront);
 
-				lampsSubway = new BGSprite('bg-subway/BGLamps', -500, -300, 0.9, 0.9);
+				lampsSubway = new BGSprite('bg-holy/HOLY_BGLampLights', -500, -300, 0.9, 0.9);
 				add(lampsSubway);
 
-				lampsLeft = new BGSprite('bg-subway/BGLampLights', -500, -300, 0.9, 0.9);
-				add(lampsLeft);
+				lampPole = new BGSprite('bg-subway/BGLamps', -500, -300, 0.9, 0.9);
+				add(lampPole);
 
-				weebGorl = new BGSprite('bg-subway/BGbackgirl', 1200, 0, 0.9, 0.9, ['Symbol 6 instance 1'], true);
-				add(weebGorl);
-
-				otherBGStuff = new BGSprite('bg-subway/BGRandomshit', -530, -50, 0.9, 0.9);
+				otherBGStuff = new BGSprite('bg-holy/HOLY_objects', -530, -50, 0.9, 0.9);
 				add(otherBGStuff);
 
-				gorls = new BGSprite('bg-subway/BGGirlsDance', -360, 150, 0.9, 0.9, ['girls dancing instance 1'], true);
-				add(gorls);
+				weebGorl = new BGSprite('bg-holy/HOLY_women', -360, 350, 0.9, 0.9, ['animegirl'], true);
+				add(weebGorl);
 
-				connectLight = new FlxSprite(0, 0).loadGraphic(Paths.image('bg-subway/connect_flash', 'shared'));
-				connectLight.updateHitbox();
-				connectLight.antialiasing = true;
-				connectLight.scrollFactor.set(0, 0);
-				connectLight.active = false;
-				connectLight.alpha = 0.0;
-			// connectLight.cameras = [camOVERLAY];
+				gunSwarm = new FlxSprite(-1000, 0).loadGraphic(Paths.image('bg-holy/HOLY_guns', 'shared'));
+				gunSwarm.setGraphicSize(Std.int(gunSwarm.width * 1));
+				gunSwarm.antialiasing = true;
+				gunSwarm.scrollFactor.set(0.9, 0.9);
+				gunSwarm.updateHitbox();
+				gunSwarm.active = true;
+
+				gunSwarmFront = new FlxBackdrop(Paths.image('bg-holy/HOLY_gunsfrontconstant'), 1, 0, true, true);
+				gunSwarmFront.scrollFactor.set(1.1, 0);
+
+				darknessOverlay = new FlxSprite(-480, -480).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), 0xFF21102b);
+				darknessOverlay.updateHitbox();
+				darknessOverlay.antialiasing = true;
+				darknessOverlay.scrollFactor.set(0, 0);
+				darknessOverlay.active = false;
+				darknessOverlay.alpha = 0.5;
+				//darknessOverlay.cameras = [camOVERLAY];
+				//darknessOverlay.blend = MULTIPLY;
+
+				blackOverlay = new FlxSprite(-480, -480).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
+				blackOverlay.updateHitbox();
+				blackOverlay.antialiasing = true;
+				blackOverlay.scrollFactor.set(0, 0);
+				blackOverlay.active = false;
+				blackOverlay.alpha = 1;
+				//darknessOverlay.cameras = [camOVERLAY];
+
 			case 'room':
 				var bg:BGSprite = new BGSprite('bg-room/city', -470, -900, 0.65, 0.65);
 				bg.setGraphicSize(Std.int(bg.width * 1.2));
