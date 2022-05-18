@@ -3808,6 +3808,7 @@ class PlayState extends MusicBeatState
 				songMisses += 1;
 				totalNotesHit += 0;
 				note.ratingMod = 0;
+				combo = 0;
 				score = 50;
 				if (!note.ratingDisabled)
 					shits++;
