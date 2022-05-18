@@ -82,7 +82,7 @@ class DialogueBox extends FlxSpriteGroup
 		var hasDialog = false;
 		switch (PlayState.SONG.song.toLowerCase())
 		{
-			case 'connect':
+			case 'connect' | 'reminisce' | 'salvation':
 				hasDialog = true;
 				box.loadGraphic(Paths.image('cutscene/dialoguebox', 'weekmami'));
 		}

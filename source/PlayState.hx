@@ -1084,7 +1084,7 @@ class PlayState extends MusicBeatState
 		{
 			switch (daSong)
 			{
-				case 'connect':
+				case 'connect' | 'reminisce' | 'salvation':
 					schoolIntro(doof);
 				default:
 					startCountdown();
@@ -2803,7 +2803,7 @@ class PlayState extends MusicBeatState
 		}
 		checkEventNote();
 
-		#if debug
+		
 		if (!endingSong && !startingSong)
 		{
 			if (FlxG.keys.justPressed.ONE)
@@ -2817,7 +2817,7 @@ class PlayState extends MusicBeatState
 				clearNotesBefore(Conductor.songPosition);
 			}
 		}
-		#end
+		
 
 		setOnLuas('cameraX', camFollowPos.x);
 		setOnLuas('cameraY', camFollowPos.y);
