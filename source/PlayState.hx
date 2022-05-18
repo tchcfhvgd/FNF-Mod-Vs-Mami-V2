@@ -1084,6 +1084,8 @@ class PlayState extends MusicBeatState
 		{
 			switch (daSong)
 			{
+				case 'connect':
+					schoolIntro(doof);
 				default:
 					startCountdown();
 			}
@@ -3428,6 +3430,7 @@ class PlayState extends MusicBeatState
 					{
 						if (value2 == 1) // 1 turns it on, while any other number would be the duration of the fade. It's weird, I know.
 							{
+								if (ClientPrefs.flashing) FlxG.camera.flash(FlxColor.WHITE, 3);
 								whiteBG.alpha = 1.0;
 								boyfriend.color = FlxColor.BLACK;
 								gf.color = FlxColor.BLACK;

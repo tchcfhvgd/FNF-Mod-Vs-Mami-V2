@@ -68,8 +68,8 @@ class FreeplayState extends MusicBeatState
 		songs.push(new SongMetadata('Connect', 0, 'mami', 0xFFFFF196));
 		songs.push(new SongMetadata('Reminisce', 0, 'mami', 0xFFFFF196));
 		songs.push(new SongMetadata('Salvation', 0, 'mami-holy', 0xFFFFF196));
-		songs.push(new SongMetadata('Fate', 0, 'mami', 0xFFFFF196));
-		songs.push(new SongMetadata('Mamigation', 0, 'mami-mamigation', 0xFFFF3027));
+		//songs.push(new SongMetadata('Fate', 0, 'mami', 0xFFFFF196));
+		//songs.push(new SongMetadata('Mamigation', 0, 'mami-mamigation', 0xFFFF3027));
 
 		/*		//KIND OF BROKEN NOW AND ALSO PRETTY USELESS//
 

@@ -1,0 +1,414 @@
+{
+	"song": {
+		"speed": 3,
+		"stage": "subway-holy",
+		"player1": "bf",
+		"player2": "mami-holy",
+		"player3": null,
+		"events": [
+			[
+				0,
+				[
+					[
+						"Change HUD Alpha",
+						"0.0",
+						"0.001"
+					]
+				]
+			],
+			[
+				4800,
+				[
+					[
+						"Change HUD Alpha",
+						"1.0",
+						"0.5"
+					],
+					[
+						"Salvation Master Event",
+						"2",
+						"1"
+					]
+				]
+			],
+			[
+				24000,
+				[
+					[
+						"Camera Zoom Freq/Depth",
+						"2",
+						"1.25"
+					]
+				]
+			],
+			[
+				33600,
+				[
+					[
+						"Camera Zoom Adv.",
+						"0.15",
+						"9.5"
+					]
+				]
+			],
+			[
+				43200,
+				[
+					[
+						"Camera Zoom Adv.",
+						"",
+						"0.25"
+					],
+					[
+						"Camera Zoom Freq/Depth",
+						"4",
+						"1"
+					],
+					[
+						"Add Camera Zoom",
+						"0.03",
+						"0.06"
+					],
+					[
+						"",
+						"",
+						""
+					]
+				]
+			],
+			[
+				44400,
+				[
+					[
+						"Camera Zoom Freq/Depth",
+						"1",
+						"1.5"
+					],
+					[
+						"Camera Zoom Adv.",
+						"0.15",
+						"5.1"
+					]
+				]
+			],
+			[
+				52800,
+				[
+					[
+						"Camera Zoom Freq/Depth",
+						"4",
+						"1"
+					]
+				]
+			],
+			[
+				54000,
+				[
+					[
+						"Camera Zoom Adv.",
+						"",
+						"0.25"
+					]
+				]
+			],
+			[
+				63600,
+				[
+					[
+						"Camera Zoom Adv.",
+						"0.3",
+						"0.15"
+					]
+				]
+			],
+			[
+				66000,
+				[
+					[
+						"Camera Zoom Adv.",
+						"",
+						"0.15"
+					]
+				]
+			],
+			[
+				93600,
+				[
+					[
+						"Change HUD Alpha",
+						"0.0",
+						"0.0001"
+					],
+					[
+						"Salvation Master Event",
+						"2",
+						"2"
+					],
+					[
+						"Change Game Alpha",
+						"0.0",
+						"0.001"
+					],
+					[
+						"Camera Zoom Adv.",
+						"0.5",
+						"0.01"
+					]
+				]
+			],
+			[
+				94200,
+				[
+					[
+						"Change Game Alpha",
+						"1.0",
+						"0.001"
+					]
+				]
+			],
+			[
+				94800,
+				[
+					[
+						"Salvation Master Event",
+						"2",
+						"2"
+					]
+				]
+			],
+			[
+				97200,
+				[
+					[
+						"Salvation Master Event",
+						"2",
+						"2"
+					]
+				]
+			],
+			[
+				99600,
+				[
+					[
+						"Salvation Master Event",
+						"2",
+						"2"
+					]
+				]
+			],
+			[
+				103200,
+				[
+					[
+						"Salvation Master Event",
+						"2",
+						"1"
+					],
+					[
+						"Change HUD Alpha",
+						"1",
+						"0.25"
+					],
+					[
+						"Camera Zoom Adv.",
+						"",
+						"0.15"
+					]
+				]
+			],
+			[
+				122400,
+				[
+					[
+						"Salvation Master Event",
+						"1",
+						"1"
+					],
+					[
+						"Camera Zoom Freq/Depth",
+						"1",
+						"2"
+					]
+				]
+			],
+			[
+				141600,
+				[
+					[
+						"Salvation Master Event",
+						"1",
+						"0"
+					],
+					[
+						"Camera Zoom Freq/Depth",
+						"4",
+						"1"
+					]
+				]
+			],
+			[
+				163200,
+				[
+					[
+						"Camera Zoom Adv.",
+						"0.15",
+						"0.001"
+					],
+					[
+						"Salvation Master Event",
+						"3",
+						"1"
+					]
+				]
+			],
+			[
+				163275,
+				[
+					[
+						"Camera Zoom Adv.",
+						"-0.15",
+						"8"
+					]
+				]
+			],
+			[
+				182400,
+				[
+					[
+						"Salvation Master Event",
+						"3",
+						"2"
+					],
+					[
+						"Salvation Master Event",
+						"1",
+						"1"
+					],
+					[
+						"Camera Zoom Freq/Depth",
+						"1",
+						"2"
+					]
+				]
+			],
+			[
+				220800,
+				[
+					[
+						"Change Game Alpha",
+						"0.0",
+						"0.01"
+					],
+					[
+						"Change HUD Alpha",
+						"0.0",
+						"0.01"
+					],
+					[
+						"Change Scroll Speed",
+						"0.5",
+						"0.15"
+					],
+					[
+						"Salvation Master Event",
+						"1",
+						"0"
+					],
+					[
+						"Camera Zoom Freq/Depth",
+						"4",
+						"1"
+					]
+				]
+			],
+			[
+				221400,
+				[
+					[
+						"Change HUD Alpha",
+						"1",
+						"1"
+					]
+				]
+			],
+			[
+				222000,
+				[
+					[
+						"Salvation Master Event",
+						"3",
+						"1"
+					]
+				]
+			],
+			[
+				222300,
+				[
+					[
+						"Camera Zoom Adv.",
+						"0.3",
+						"0.001"
+					]
+				]
+			],
+			[
+				223200,
+				[
+					[
+						"Change Game Alpha",
+						"1",
+						"2.5"
+					],
+					[
+						"Camera Zoom Adv.",
+						"",
+						"15"
+					]
+				]
+			],
+			[
+				262800,
+				[
+					[
+						"Change HUD Alpha",
+						"0.0",
+						"6"
+					],
+					[
+						"Camera Zoom Freq/Depth",
+						"4",
+						"0.0"
+					],
+					[
+						"Camera Zoom Adv.",
+						"0.1",
+						"0.0001"
+					],
+					[
+						"Salvation Master Event",
+						"3",
+						"6"
+					]
+				]
+			],
+			[
+				262803.125,
+				[
+					[
+						"Camera Zoom Adv.",
+						"",
+						"6"
+					]
+				]
+			]
+		],
+		"notes": [],
+		"splashSkin": null,
+		"validScore": false,
+		"gfVersion": "gf",
+		"bpm": 200,
+		"arrowSkin": "",
+		"needsVoices": true,
+		"song": "Salvation"
+	}
+}
