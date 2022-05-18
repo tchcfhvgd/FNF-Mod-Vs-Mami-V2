@@ -3708,6 +3708,9 @@ class PlayState extends MusicBeatState
 					if (curSong == "Reminisce")
 						{
 							startVideo('Salvation');
+							camGame.visible = false;
+							camHUD.visible = false;
+							inCutscene = true;
 						}
 
 					PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0] + difficulty, PlayState.storyPlaylist[0]);
@@ -3719,6 +3722,7 @@ class PlayState extends MusicBeatState
 							{
 								cancelMusicFadeTween();
 								LoadingState.loadAndSwitchState(new PlayState());
+								camGame.visible = false;
 							});
 						}
 					else
