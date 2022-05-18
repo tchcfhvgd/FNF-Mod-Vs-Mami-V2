@@ -157,22 +157,17 @@
 				]
 			],
 			[
-				94200,
-				[
-					[
-						"Change Game Alpha",
-						"1.0",
-						"0.001"
-					]
-				]
-			],
-			[
 				94800,
 				[
 					[
 						"Salvation Master Event",
 						"2",
 						"2"
+					],
+					[
+						"Change Game Alpha",
+						"1.0",
+						"0.0001"
 					]
 				]
 			],
@@ -228,6 +223,11 @@
 						"Camera Zoom Freq/Depth",
 						"1",
 						"2"
+					],
+					[
+						"Health Drain Note",
+						"0.0125",
+						"0.49"
 					]
 				]
 			],
@@ -243,6 +243,11 @@
 						"Camera Zoom Freq/Depth",
 						"4",
 						"1"
+					],
+					[
+						"Health Drain Note",
+						"",
+						""
 					]
 				]
 			],
@@ -288,6 +293,11 @@
 						"Camera Zoom Freq/Depth",
 						"1",
 						"2"
+					],
+					[
+						"Health Drain Note",
+						"0.0125",
+						"0.49"
 					]
 				]
 			],
@@ -318,6 +328,16 @@
 						"Camera Zoom Freq/Depth",
 						"4",
 						"1"
+					],
+					[
+						"Salvation Master Event",
+						"4",
+						"1"
+					],
+					[
+						"Health Drain Note",
+						"",
+						""
 					]
 				]
 			],
@@ -383,6 +403,11 @@
 						"Camera Zoom Adv.",
 						"0.1",
 						"0.0001"
+					],
+					[
+						"Change Character",
+						"dad",
+						"mami-holy-tired"
 					],
 					[
 						"Salvation Master Event",

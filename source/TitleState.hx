@@ -67,6 +67,8 @@ class TitleState extends MusicBeatState
 
 	var curWacky:Array<String> = [];
 
+	public static var isDebug:Bool = false;
+
 	var wackyImage:FlxSprite;
 
 	#if TITLE_SCREEN_EASTER_EGG
@@ -220,6 +222,10 @@ class TitleState extends MusicBeatState
 			bgFlash.antialiasing = ClientPrefs.globalAntialiasing;
 			add(bgFlash);
 		}
+
+		#if debug
+		isDebug = true;
+		#end
 	}
 
 	var logoBl:FlxSprite;
@@ -532,6 +538,12 @@ class TitleState extends MusicBeatState
 			if (controls.UI_RIGHT)
 				swagShader.hue += elapsed * 0.1;
 		}
+
+		if (FlxG.keys.pressed.SHIFT && FlxG.keys.justPressed.D)
+			{
+				isDebug = !isDebug;
+				FlxG.sound.play(Paths.sound('confirmMenu', 'preload'));
+			}
 
 		super.update(elapsed);
 	}
