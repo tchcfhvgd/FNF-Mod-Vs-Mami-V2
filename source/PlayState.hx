@@ -345,6 +345,7 @@ class PlayState extends MusicBeatState
 	var isDisco:Bool = false;
 	var tetrisLight:FlxSprite;
 	var colorCycle:Int = 0;
+	var tetrisCommentsOverlay:Array<String> = ['wwwww', 'omg mami from vs mami fnf', 'wagaga', 'boyfriend fnf', '！？！？！？！？', '<みんな死ぬしかないじゃない>'];
 
 	// Custom Note Vars
 	var holyNoteDmg:Float = 0.20;
@@ -637,12 +638,12 @@ class PlayState extends MusicBeatState
 				//darknessOverlay.cameras = [camOVERLAY];
 
 			case 'subway-tetris':
-				bg = new BGSprite('bg-subway/BGSky', -500, -500, 0.9, 0.9);
+				var bg:BGSprite = new BGSprite('bg-subway/BGSky', -500, -500, 0.9, 0.9);
 				bg.setGraphicSize(Std.int(bg.width * 1.1));
 				bg.updateHitbox();
 				add(bg);
 
-				trainSubway = new BGSprite('bg-subway/BGTrain', -500, -100, 0.9, 0.9);
+				var trainSubway:BGSprite = new BGSprite('bg-subway/BGTrain', -500, -100, 0.9, 0.9);
 				add(trainSubway);
 
 				stageFront = new BGSprite('bg-subway/BGFloor', -500, 600, 0.9, 0.9);
@@ -2418,6 +2419,11 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		if (FlxG.keys.justPressed.SPACE)
+			{
+				tetrisComment('');
+			}
+
 		/*if (FlxG.keys.justPressed.NINE)
 		{
 			iconP1.swapOldIcon();
@@ -3499,6 +3505,23 @@ class PlayState extends MusicBeatState
 		}
 		callOnLuas('onEvent', [eventName, value1, value2]);
 	}
+
+	function tetrisComment(msg:String = ''):Void
+		{
+			if (msg == '')
+				{
+					var message = new FlxText(1280, 0, FlxG.width, "", 72);
+					message.setFormat(Paths.font("NirmalaB.ttf"), 72, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					message.scrollFactor.set();
+					message.borderSize = 0.5;
+					message.cameras = [camHUD];
+					message.y = FlxG.random.int(0, 720);
+					message.text = FlxG.random.getObject(tetrisCommentsOverlay, null, 0, tetrisCommentsOverlay.length);
+					message.bold = true;
+					add(message);
+					FlxTween.tween(message, {x: message.x - 2250}, 4, {onComplete: function(twn:FlxTween){remove(message);}});
+				}
+		}
 
 	function moveCameraSection(?id:Int = 0):Void
 	{
