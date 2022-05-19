@@ -340,6 +340,12 @@ class PlayState extends MusicBeatState
 	var rocksFront:FlxBackdrop;
 	var rocksBack:FlxBackdrop;
 
+	// Tetris Stuff
+	var swagShader:ColorSwap = null;
+	var isDisco:Bool = false;
+	var tetrisLight:FlxSprite;
+	var colorCycle:Int = 0;
+
 	// Custom Note Vars
 	var holyNoteDmg:Float = 0.20;
 
@@ -350,6 +356,9 @@ class PlayState extends MusicBeatState
 		// Mami Stuff
 		healthTween = FlxTween.tween(this, {}, 0);
 		if (storyDifficulty == 2) holyNoteDmg = 0.5;
+
+		swagShader = new ColorSwap();
+		swagShader.hue = 0;
 
 		// for lua
 		instance = this;
@@ -627,6 +636,53 @@ class PlayState extends MusicBeatState
 				blackOverlay.alpha = 1;
 				//darknessOverlay.cameras = [camOVERLAY];
 
+			case 'subway-tetris':
+				bg = new BGSprite('bg-subway/BGSky', -500, -500, 0.9, 0.9);
+				bg.setGraphicSize(Std.int(bg.width * 1.1));
+				bg.updateHitbox();
+				add(bg);
+
+				trainSubway = new BGSprite('bg-subway/BGTrain', -500, -100, 0.9, 0.9);
+				add(trainSubway);
+
+				stageFront = new BGSprite('bg-subway/BGFloor', -500, 600, 0.9, 0.9);
+				add(stageFront);
+
+				lampsSubway = new BGSprite('bg-subway/BGLamps', -500, -300, 0.9, 0.9);
+				add(lampsSubway);
+
+				lampPole = new BGSprite('bg-subway/BGLampLights', -500, -300, 0.9, 0.9);
+				add(lampPole);
+
+				weebGorl = new BGSprite('bg-subway/BGbackgirl', 1200, 0, 0.9, 0.9, ['Symbol 6 instance 1'], true);
+				add(weebGorl);
+
+				otherBGStuff = new BGSprite('bg-subway/BGRandomshit', -530, -50, 0.9, 0.9);
+				add(otherBGStuff);
+
+				tetrisLight = new FlxSprite(0, 0);
+				tetrisLight.frames = Paths.getSparrowAtlas('bg-subway/tetris/connect_flash');
+				tetrisLight.animation.addByPrefix('red', "RED instance 1", 24, true);
+				tetrisLight.animation.addByPrefix('yellow', "YEL instance 1", 24, true);
+				tetrisLight.animation.addByPrefix('blue', "BLU instance 1", 24, true);
+				tetrisLight.animation.addByPrefix('green', "GRN instance 1", 24, true);
+				tetrisLight.animation.addByPrefix('pink', "PNK instance 1", 24, true);
+				tetrisLight.setGraphicSize(Std.int(tetrisLight.width * 1));
+				tetrisLight.antialiasing = true;
+				tetrisLight.scrollFactor.set(1, 1);
+				tetrisLight.updateHitbox();
+				tetrisLight.active = false;
+				tetrisLight.alpha = 0.0;
+				tetrisLight.cameras = [camHUD];
+				add(tetrisLight);
+
+				bg.shader = swagShader.shader;
+				trainSubway.shader = swagShader.shader;
+				stageFront.shader = swagShader.shader;
+				lampPole.shader = swagShader.shader;
+				weebGorl.shader = swagShader.shader;
+				otherBGStuff.shader = swagShader.shader;
+				
 			case 'room':
 				var bg:BGSprite = new BGSprite('bg-room/city', -470, -900, 0.65, 0.65);
 				bg.setGraphicSize(Std.int(bg.width * 1.2));
@@ -1173,6 +1229,16 @@ class PlayState extends MusicBeatState
 		Conductor.safeZoneOffset = (ClientPrefs.safeFrames / 60) * 1000;
 		callOnLuas('onCreatePost', []);
 
+		if (curStage == 'subway-tetris')
+			{
+				gf.shader = swagShader.shader;
+				dad.shader = swagShader.shader;
+				boyfriend.shader = swagShader.shader;
+				iconP1.shader = swagShader.shader;
+				iconP2.shader = swagShader.shader;
+				healthBar.shader = swagShader.shader;
+			}
+		
 		super.create();
 
 		Paths.clearUnusedMemory();
@@ -3357,6 +3423,12 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(this, {defaultCamZoom: defaultCamZoom + value1}, value2, {ease: FlxEase.quadOut});
 					}
 			
+			case 'Tetris Disco':
+				if(curStage == 'subway-tetris' && ClientPrefs.flashing) 
+				{
+					isDisco = !isDisco;
+				}
+
 			case 'Salvation Master Event':
 				var value1:Int = Std.parseInt(value1);
 				var value2:Int = Std.parseInt(value2);
@@ -4882,6 +4954,35 @@ class PlayState extends MusicBeatState
 			// trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
 			return;
 		}
+
+		if (curSong == 'Tetris' && isDisco && ClientPrefs.flashing && tetrisLight != null) 
+			{
+				if (colorCycle <= 3)
+					{
+						colorCycle += 1;
+						swagShader.hue += .125;
+					}
+				else
+					{
+						colorCycle = 0;
+						swagShader.hue = 0.20;
+					}
+
+				if (colorCycle == 0)
+					tetrisLight.animation.play("red", true);
+				else if (colorCycle == 1)
+					tetrisLight.animation.play("yellow", true);
+				else if (colorCycle == 2)
+					tetrisLight.animation.play("blue", true);
+				else if (colorCycle == 3)
+					tetrisLight.animation.play("green", true);
+				else if (colorCycle == 4)
+					tetrisLight.animation.play("pink", true);
+
+				tetrisLight.alpha = 1;
+				if (tetrisLight != null) FlxTween.cancelTweensOf(tetrisLight);
+				FlxTween.tween(tetrisLight, {alpha: 0.0}, 0.7, {ease: FlxEase.quadOut});
+			}
 
 		if (curBeat >= 1)
 		{
