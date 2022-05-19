@@ -69,6 +69,7 @@
 		<library name="songs"         preload="true" />
 		<library name="shared"        preload="true" />
 		<library name="weekmami"      preload="true" />
+		<library name="bonus"         preload="true" />
 		<library name="week6"         preload="true" />
 	</section>
 	
@@ -76,6 +77,7 @@
 		<library name="songs"         preload="false" />
 		<library name="shared"        preload="false" />
 		<library name="weekmami"      preload="false" />
+		<library name="bonus"         preload="false" />
 		<library name="week6"         preload="false" />
 	</section>
 	
@@ -88,6 +90,8 @@
 	<assets path="assets/shared"        library="shared"        exclude="*.mp3" unless="web"/>
 	<assets path="assets/weekmami"      library="weekmami"      exclude="*.ogg" if="web"/>
 	<assets path="assets/weekmami"      library="weekmami"      exclude="*.mp3" unless="web"/>
+	<assets path="assets/bonus"   	    library="bonus"  	    exclude="*.ogg" if="web"/>
+	<assets path="assets/bonus"   	    library="bonus"    	    exclude="*.mp3" unless="web"/>
 	<assets path="assets/week6"         library="week6"         exclude="*.ogg" if="web"/>
 	<assets path="assets/week6"         library="week6"         exclude="*.mp3" unless="web"/>
 	

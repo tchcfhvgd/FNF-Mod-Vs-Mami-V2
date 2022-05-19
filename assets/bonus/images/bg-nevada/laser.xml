@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="laser.png">
+	<!-- Created with Adobe Animate version 21.0.9.42677 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="beam instance 10000" x="2" y="2" width="359" height="1374" pivotX="52.05" pivotY="52"/>
+	<SubTexture name="beam instance 10001" x="363" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10002" x="724" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10003" x="1085" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10004" x="1446" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10005" x="1807" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10006" x="2168" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10007" x="2529" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10008" x="2890" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10009" x="3251" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10010" x="3612" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10011" x="3973" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10012" x="4334" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10013" x="4695" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10014" x="5056" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10015" x="5417" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10016" x="5778" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10017" x="6139" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10018" x="6500" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10019" x="6861" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10020" x="7222" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10021" x="7583" y="2" width="359" height="1374"/>
+	<SubTexture name="beam instance 10022" x="2" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10023" x="363" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10024" x="724" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10025" x="1085" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10026" x="1446" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10027" x="1807" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10028" x="2168" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10029" x="2529" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10030" x="2890" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10031" x="3251" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10032" x="3612" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10033" x="3973" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10034" x="4334" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10035" x="4695" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10036" x="5056" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10037" x="5417" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10038" x="5778" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10039" x="6139" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10040" x="6500" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10041" x="6861" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10042" x="7222" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10043" x="7583" y="1378" width="359" height="1374"/>
+	<SubTexture name="beam instance 10044" x="2" y="2754" width="359" height="1374"/>
+	<SubTexture name="beam instance 10045" x="363" y="2754" width="359" height="1374"/>
+	<SubTexture name="beam instance 10046" x="724" y="2754" width="359" height="1374"/>
+	<SubTexture name="beam instance 10047" x="1085" y="2754" width="359" height="1374"/>
+	<SubTexture name="beam instance 10048" x="1446" y="2754" width="359" height="1374"/>
+	<SubTexture name="beam instance 10049" x="1807" y="2754" width="359" height="1374"/>
+	<SubTexture name="beam instance 10050" x="2168" y="2754" width="359" height="1374"/>
+	<SubTexture name="beam instance 10051" x="2529" y="2754" width="359" height="1374"/>
+	<SubTexture name="beam instance 10052" x="2890" y="2754" width="359" height="1374"/>
+	<SubTexture name="beam instance 10053" x="3251" y="2754" width="359" height="1374"/>
+	<SubTexture name="beam instance 10054" x="3612" y="2754" width="359" height="1374"/>
+	<SubTexture name="beam instance 10055" x="3973" y="2754" width="359" height="1374"/>
+	<SubTexture name="beam instance 10056" x="4334" y="2754" width="359" height="1374"/>
+	<SubTexture name="beam instance 10057" x="4695" y="2754" width="359" height="1374"/>
+	<SubTexture name="beam instance 10058" x="5056" y="2754" width="359" height="1374"/>
+	<SubTexture name="beam instance 10059" x="2890" y="1378" width="359" height="1374"/>
+</TextureAtlas>

@@ -335,15 +335,21 @@ class PlayState extends MusicBeatState
 	var blackOverlay:FlxSprite;
 	var thisBitchSnapped:Bool = false;
 
+	var platform:FlxSprite;
+	var laser:BGSprite;
+	var rocksFront:FlxBackdrop;
+	var rocksBack:FlxBackdrop;
+
 	// Custom Note Vars
-	var holyNoteDmg:Float = 0.25;
+	var holyNoteDmg:Float = 0.20;
 
 	override public function create()
 	{
 		Paths.clearStoredMemory();
 
-		// mami stuff
+		// Mami Stuff
 		healthTween = FlxTween.tween(this, {}, 0);
+		if (storyDifficulty == 2) holyNoteDmg = 0.5;
 
 		// for lua
 		instance = this;
@@ -636,6 +642,35 @@ class PlayState extends MusicBeatState
 				window.setGraphicSize(Std.int(window.width * 0.95));
 				window.updateHitbox();
 				add(window);
+
+				addShaderToCamera('game', new VCRDistortionEffect(0.05,true,true,true));
+				addShaderToCamera('hud', new VCRDistortionEffect(0.05,true,true,true));
+
+
+			case 'nevada':
+				var bg:BGSprite = new BGSprite('bg-nevada/background', -1000, -1000, 0.5, 0.5);
+				bg.setGraphicSize(Std.int(bg.width * 2.0));
+				bg.updateHitbox();
+				add(bg);
+
+				rocksBack = new FlxBackdrop(Paths.image('bg-nevada/rocks_back'), 1, 0, true, false);
+				rocksBack.x -= 500;
+				add(rocksBack);
+				rocksBack.scrollFactor.set(0.9, 0.9);
+				rocksBack.velocity.set(-1500, 0);
+
+				laser = new BGSprite('bg-nevada/laser', 1273, -1006, 0.9, 0.9,['beam instance 1'], true);
+				laser.setGraphicSize(Std.int(laser.width * 1.5));
+				laser.updateHitbox();
+				add(laser);
+
+				platform = new BGSprite('bg-nevada/platform', -157, 105, 0.9, 0.9);
+				platform.setGraphicSize(Std.int(platform.width * 0.95));
+				platform.updateHitbox();
+				add(platform);
+
+				addShaderToCamera('game', new ChromaticAberrationEffect(0.002));
+				addShaderToCamera('hud', new ChromaticAberrationEffect(0.002));
 		}
 
 		if (isPixelStage)
@@ -676,6 +711,16 @@ class PlayState extends MusicBeatState
 						}
 				},0);
 		}
+
+		if (curStage == 'nevada')
+			{
+				rocksFront = new FlxBackdrop(Paths.image('bg-nevada/rocks_front'), 1, 0, true, false);
+				rocksFront.x += 100;
+				rocksFront.y += 100;
+				add(rocksFront);
+				rocksFront.scrollFactor.set(0.9, 0.9);
+				rocksFront.velocity.set(-1500, 0);
+			}
 
 		#if LUA_ALLOWED
 		luaDebugGroup = new FlxTypedGroup<DebugLuaText>();
@@ -4173,7 +4218,8 @@ class PlayState extends MusicBeatState
 				if (!daNote.isSustainNote)
 					FlxG.sound.play(Paths.sound('MAMI_shoot', 'shared'));
 				healthChange((holyNoteDmg * healthLoss) * -1);
-				holyNoteDmg += 0.15;
+				holyNoteDmg += 0.10;
+				if (storyDifficulty == 2) holyNoteDmg += 0.15;
 				if (instakillOnMiss)
 				{
 					vocals.volume = 0;
