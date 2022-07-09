@@ -24,6 +24,7 @@ import flixel.addons.effects.chainable.FlxEffectSprite;
 import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.atlas.FlxAtlas;
+import flixel.effects.FlxFlicker;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
@@ -164,6 +165,7 @@ class PlayState extends MusicBeatState
 
 	public var gfSpeed:Int = 1;
 	public var health:Float = 1;
+	public var maxHealth:Float = 2;
 	public var healthDisplay:Float = 1;
 	public var combo:Int = 0;
 
@@ -260,6 +262,8 @@ class PlayState extends MusicBeatState
 
 	var oldDefaultCamZoom:Float = 1.05;
 
+	private var healthcap:Float = 0;
+
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
 
@@ -346,6 +350,8 @@ class PlayState extends MusicBeatState
 	var tetrisLight:FlxSprite;
 	var colorCycle:Int = 0;
 	var tetrisCommentsOverlay:Array<String> = ['wwwww', 'omg mami from vs mami fnf', 'wagaga', 'boyfriend fnf', '！？！？！？！？', '<みんな死ぬしかないじゃない>'];
+	var tetrisBlock:FlxSprite;
+	var tetrisTimer:FlxTimer;
 
 	// Custom Note Vars
 	var holyNoteDmg:Float = 0.20;
@@ -353,6 +359,7 @@ class PlayState extends MusicBeatState
 	override public function create()
 	{
 		Paths.clearStoredMemory();
+		Paths.clearUnusedMemory();
 
 		// Mami Stuff
 		healthTween = FlxTween.tween(this, {}, 0);
@@ -452,9 +459,9 @@ class PlayState extends MusicBeatState
 		}
 
 		if (curSong == 'Salvation')
-			{
-				camHUD.alpha = 0.0;
-			}
+		{
+			camHUD.alpha = 0.0;
+		}
 
 		// addShaderToCamera('game', new ChromaticAberrationEffect(0.01));
 		// addShaderToCamera('hud', new ChromaticAberrationEffect(0.01));
@@ -683,7 +690,11 @@ class PlayState extends MusicBeatState
 				lampPole.shader = swagShader.shader;
 				weebGorl.shader = swagShader.shader;
 				otherBGStuff.shader = swagShader.shader;
-				
+
+				GameOverSubstate.characterName = 'bf-tetris';
+				GameOverSubstate.loopSoundName = 'gameOver-tetris';
+				GameOverSubstate.endSoundName = 'gameOverEnd-tetris';
+
 			case 'room':
 				var bg:BGSprite = new BGSprite('bg-room/city', -470, -900, 0.65, 0.65);
 				bg.setGraphicSize(Std.int(bg.width * 1.2));
@@ -784,6 +795,16 @@ class PlayState extends MusicBeatState
 		luaDebugGroup.cameras = [camOther];
 		add(luaDebugGroup);
 		#end
+
+		new FlxTimer().start(1.15, function(tmr:FlxTimer)
+		{
+			if (healthBar.percent < 20 && !paused)
+			{
+				FlxTween.color(healthBar, 1, 0xffff8f8f, FlxColor.WHITE, {ease: FlxEase.quartOut});
+				FlxTween.color(iconP1, 1, 0xffff8f8f, FlxColor.WHITE, {ease: FlxEase.quartOut});
+				FlxTween.color(iconP2, 1, 0xffff8f8f, FlxColor.WHITE, {ease: FlxEase.quartOut});
+			}
+		}, 0);
 
 		if (curStage == 'philly')
 		{
@@ -926,9 +947,10 @@ class PlayState extends MusicBeatState
 				resetFastCar();
 				insert(members.indexOf(gfGroup) - 1, fastCar);
 
-			case 'schoolEvil':
+			case 'schoolEvil' | 'subway-tetris':
 				var evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069); // nice
 				insert(members.indexOf(dadGroup) - 1, evilTrail);
+				
 		}
 
 		var file:String = Paths.json(songName + '/dialogue'); // Checks for json/Psych Engine dialogue
@@ -1231,19 +1253,73 @@ class PlayState extends MusicBeatState
 		callOnLuas('onCreatePost', []);
 
 		if (curStage == 'subway-tetris')
-			{
-				gf.shader = swagShader.shader;
-				dad.shader = swagShader.shader;
-				boyfriend.shader = swagShader.shader;
-				iconP1.shader = swagShader.shader;
-				iconP2.shader = swagShader.shader;
-				healthBar.shader = swagShader.shader;
-			}
+		{
+			gf.shader = swagShader.shader;
+			dad.shader = swagShader.shader;
+			boyfriend.shader = swagShader.shader;
+			iconP1.shader = swagShader.shader;
+			iconP2.shader = swagShader.shader;
+			healthBar.shader = swagShader.shader;
+		}
 		
 		super.create();
 
 		Paths.clearUnusedMemory();
 		CustomFadeTransition.nextCamera = camOther;
+	}
+
+	public function tetrisBlockage(duration:Float = 2.5, intensity:Float = 1)
+	{
+		tetrisTimer = new FlxTimer();
+		modchartTimers.set("tetrisTimer", tetrisTimer); // members of modchartTimers are stopped on pause - should fix the issue - heat
+
+		tetrisBlock = new FlxSprite(0, -1080).loadGraphic(Paths.image('tetris/health_blockage'));
+		tetrisBlock.cameras = [camHUD];
+		tetrisBlock.antialiasing = false;
+
+		tetrisBlock.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - 240;
+		tetrisBlock.y = -720;
+		tetrisBlock.setGraphicSize(Std.int(tetrisBlock.width * 0.075));
+
+		add(tetrisBlock);
+
+		if (FlxG.save.data.downscroll) {
+			tetrisBlock.y = 150;
+			trace(tetrisBlock.y);
+		}
+		FlxG.sound.play(Paths.sound('tetris/hpblockage_spawn','shared'));
+		FlxFlicker.flicker(tetrisBlock, 1, 0.2, true);
+		FlxG.sound.play(Paths.sound('tetris/hpblockage_move','shared'));
+		modchartTimers["tetrisTimer"].start(1 / intensity, function(tmr:FlxTimer)
+		{
+			if (FlxG.save.data.downscroll)	{
+				tetrisBlock.y -= 75;
+			} else {
+				tetrisBlock.y += 75;
+			}
+			FlxG.sound.play(Paths.sound('tetris/hpblockage_move','shared'));
+			tetrisBlock.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - 240;
+
+			if (modchartTimers["tetrisTimer"].finished) {
+				trace("finished");
+				if (FlxG.save.data.downscroll) {
+					tetrisBlock.y -= 15;
+				} else {
+					tetrisBlock.y += 15;
+				}
+				maxHealth = health;
+				tetrisBlock.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - 240;
+				FlxG.sound.play(Paths.sound('tetris/hpblockage_thud','shared'));
+
+				modchartTimers["tetrisTimer"].start(duration + 2.65, function(tmr:FlxTimer)
+				{
+					FlxG.sound.play(Paths.sound('tetris/hpblockage_clear','shared'));
+					remove(tetrisBlock);
+					maxHealth = 2;
+					modchartTimers.remove("tetrisTimer");
+				});
+			}
+		}, 7);
 	}
 
 	function set_songSpeed(value:Float):Float
@@ -2046,6 +2122,7 @@ class PlayState extends MusicBeatState
 		{
 			for (songNotes in section.sectionNotes)
 			{
+				if (songNotes[1] > 7) continue; // Notes outside of the charting grid? istg KE is weird - heat
 				var daStrumTime:Float = songNotes[0];
 				var daNoteData:Int = Std.int(songNotes[1] % 4);
 
@@ -2073,7 +2150,6 @@ class PlayState extends MusicBeatState
 				var susLength:Float = swagNote.sustainLength;
 
 				susLength = susLength / Conductor.stepCrochet;
-				unspawnNotes.push(swagNote);
 				var floorSus:Int = Math.floor(susLength);
 
 				if (floorSus > 0)
@@ -2121,6 +2197,7 @@ class PlayState extends MusicBeatState
 				{
 					noteTypeMap.set(swagNote.noteType, true);
 				}
+				unspawnNotes.push(swagNote);
 			}
 			daBeats += 1;
 		}
@@ -2286,11 +2363,17 @@ class PlayState extends MusicBeatState
 
 			for (tween in modchartTweens)
 			{
-				tween.active = false;
+				if (tween != null)
+				{
+					tween.active = false;
+				}
 			}
 			for (timer in modchartTimers)
 			{
-				timer.active = false;
+				if (timer != null)
+				{
+					timer.active = false;
+				}
 			}
 		}
 
@@ -2332,11 +2415,17 @@ class PlayState extends MusicBeatState
 
 			for (tween in modchartTweens)
 			{
-				tween.active = true;
+				if (tween != null)
+				{
+					tween.active = true;
+				}
 			}
 			for (timer in modchartTimers)
 			{
-				timer.active = true;
+				if (timer != null)
+				{
+					timer.active = true;
+				}
 			}
 			paused = false;
 			callOnLuas('onResume', []);
@@ -2632,7 +2721,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (FlxG.keys.anyJustPressed(debugKeysChart) && !endingSong && !inCutscene)
+		if (FlxG.keys.anyJustPressed(debugKeysChart) && !endingSong && !inCutscene && !isStoryMode)
 		{
 			openChartEditor();
 		}
@@ -2666,18 +2755,20 @@ class PlayState extends MusicBeatState
 			healthDisplay = 2;
 
 		if (healthBar.percent < 25)
+		{
 			iconP1.animation.curAnim.curFrame = 1;
-		else if (healthBar.percent > 75)
-			iconP1.animation.curAnim.curFrame = 2;
-		else
-			iconP1.animation.curAnim.curFrame = 0;
-
-		if (healthBar.percent > 75)
-			iconP2.animation.curAnim.curFrame = 1;
-		else if (healthBar.percent < 25)
 			iconP2.animation.curAnim.curFrame = 2;
+		}
+		else if (healthBar.percent > 75) 
+		{
+			iconP1.animation.curAnim.curFrame = 2;
+			iconP2.animation.curAnim.curFrame = 1;
+		}
 		else
+		{
+			iconP1.animation.curAnim.curFrame = 0;
 			iconP2.animation.curAnim.curFrame = 0;
+		}
 
 		if (FlxG.keys.anyJustPressed(debugKeysCharacter) && !endingSong && !inCutscene)
 		{
@@ -3063,11 +3154,17 @@ class PlayState extends MusicBeatState
 				persistentDraw = false;
 				for (tween in modchartTweens)
 				{
-					tween.active = true;
+					if (tween != null)
+					{
+						tween.active = true;
+					}
 				}
 				for (timer in modchartTimers)
 				{
-					timer.active = true;
+					if (timer != null)
+					{
+						timer.active = true;
+					}
 				}
 				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x - boyfriend.positionArray[0],
 					boyfriend.getScreenPosition().y - boyfriend.positionArray[1], camFollowPos.x, camFollowPos.y));
@@ -3434,6 +3531,8 @@ class PlayState extends MusicBeatState
 				{
 					isDisco = !isDisco;
 				}
+			case 'Tetris Blockage':
+				tetrisBlockage(Std.parseFloat(value1), Std.parseFloat(value2));
 
 			case 'Salvation Master Event':
 				var value1:Int = Std.parseInt(value1);
@@ -3629,6 +3728,14 @@ class PlayState extends MusicBeatState
 
 	public var transitioning = false;
 
+	function unlockSong(song:String) 
+	{
+		if (!FlxG.save.data.unlockedSongs.contains(song)) {
+			FlxG.save.data.unlockedSongs.push(song);
+			FlxG.save.flush();
+		}
+	}
+
 	public function endSong():Void
 	{
 		// Should kill you if you tried to cheat
@@ -3770,13 +3877,12 @@ class PlayState extends MusicBeatState
 					prevCamFollowPos = camFollowPos;
 
 					if (curSong == "Reminisce")
-						{
-							startVideo('Salvation');
-							camGame.visible = false;
-							camHUD.visible = false;
-							inCutscene = true;
-						}
-
+					{
+						startVideo('Salvation');
+						camGame.visible = false;
+						camHUD.visible = false;
+						inCutscene = true;
+					}
 					PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0] + difficulty, PlayState.storyPlaylist[0]);
 					FlxG.sound.music.stop();
 
@@ -3795,6 +3901,18 @@ class PlayState extends MusicBeatState
 							cancelMusicFadeTween();
 							LoadingState.loadAndSwitchState(new PlayState());
 						}
+					if (!FlxG.save.data.completedSongs.contains(curSong)) {
+						FlxG.save.data.completedSongs.push(curSong);
+					}
+
+					switch (curSong.toLowerCase())
+					{
+						case "salvation":
+							unlockSong("Tetris");
+						case "tetris":
+							unlockSong("Mamigation");
+
+					}
 				}
 			}
 			else
@@ -3808,8 +3926,12 @@ class PlayState extends MusicBeatState
 				MusicBeatState.switchState(new FreeplayState());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				changedDifficulty = false;
-			}
+				if (!FlxG.save.data.completedSongs.contains(curSong)) {
+					FlxG.save.data.completedSongs.push(curSong);
+				}
 			transitioning = true;
+			}
+			FlxG.save.flush();
 		}
 	}
 
@@ -3915,7 +4037,10 @@ class PlayState extends MusicBeatState
 					case "shit":
 						if (!note.isSustainNote) healthChange((note.missHealth * healthLoss) * -1);
 					default:
-						if (!note.isSustainNote) healthChange(note.hitHealth * healthGain);
+						if (!note.isSustainNote && health < maxHealth) 
+							healthChange(note.hitHealth * healthGain);
+						if (maxHealth < health) 
+							health = maxHealth;
 				}
 		}
 
@@ -4979,33 +5104,37 @@ class PlayState extends MusicBeatState
 		}
 
 		if (curSong == 'Tetris' && isDisco && ClientPrefs.flashing && tetrisLight != null) 
-			{
-				if (colorCycle <= 3)
-					{
-						colorCycle += 1;
-						swagShader.hue += .125;
-					}
-				else
-					{
-						colorCycle = 0;
-						swagShader.hue = 0.20;
-					}
+		{
+			if (colorCycle <= 3)
+				{
+					colorCycle += 1;
+					swagShader.hue += .125;
+				}
+			else
+				{
+					colorCycle = 0;
+					swagShader.hue = 0.20;
+				}
 
-				if (colorCycle == 0)
-					tetrisLight.animation.play("red", true);
-				else if (colorCycle == 1)
-					tetrisLight.animation.play("yellow", true);
-				else if (colorCycle == 2)
-					tetrisLight.animation.play("blue", true);
-				else if (colorCycle == 3)
-					tetrisLight.animation.play("green", true);
-				else if (colorCycle == 4)
-					tetrisLight.animation.play("pink", true);
+			if (colorCycle == 0)
+				tetrisLight.animation.play("red", true);
+			else if (colorCycle == 1)
+				tetrisLight.animation.play("yellow", true);
+			else if (colorCycle == 2)
+				tetrisLight.animation.play("blue", true);
+			else if (colorCycle == 3)
+				tetrisLight.animation.play("green", true);
+			else if (colorCycle == 4)
+				tetrisLight.animation.play("pink", true);
 
-				tetrisLight.alpha = 1;
-				if (tetrisLight != null) FlxTween.cancelTweensOf(tetrisLight);
-				FlxTween.tween(tetrisLight, {alpha: 0.0}, 0.7, {ease: FlxEase.quadOut});
-			}
+			tetrisLight.alpha = 1;
+			if (tetrisLight != null) FlxTween.cancelTweensOf(tetrisLight);
+			FlxTween.tween(tetrisLight, {alpha: 0.0}, 0.7, {ease: FlxEase.quadOut});
+		}
+		else
+		{
+			swagShader.hue = 0;
+		}
 
 		if (curBeat >= 1)
 		{

@@ -223,6 +223,21 @@ class TitleState extends MusicBeatState
 			add(bgFlash);
 		}
 
+		if (FlxG.save.data.completedMain == null) 
+		{
+			FlxG.save.data.completedMain = false;
+		}
+
+		if (FlxG.save.data.completedSongs == null)
+		{
+			FlxG.save.data.completedSongs = [];
+		}
+
+		if (FlxG.save.data.unlockedSongs == null)
+		{
+			FlxG.save.data.unlockedSongs = ["Connect", "Reminisce", "Salvation"];
+		}
+
 		#if debug
 		isDebug = true;
 		#end

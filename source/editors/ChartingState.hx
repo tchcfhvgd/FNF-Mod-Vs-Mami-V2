@@ -90,7 +90,7 @@ class ChartingState extends MusicBeatState
 		['Camera Zoom Adv.', "Value 1: Zoom in Depth (blank for reset)\nValue 2: How long will it take to complete this."],
 		['Tetris Disco', "Toggles Tetris Disco."],
 		['Salvation Master Event', "Value 1: Type of event.\nValue 2: If applicable, effectiveness/duration of the event.\nVALUE 1\n1 = thisBitchSnapped Var\n2 = Blackness Effect\n3 = Bad Apple Effect\n4 = Change P2 Icon"],
-
+		['Tetris Blockage', "Tetris block event"]
 	];
 
 	var _file:FileReference;
