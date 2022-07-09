@@ -1268,6 +1268,10 @@ class PlayState extends MusicBeatState
 		CustomFadeTransition.nextCamera = camOther;
 	}
 
+	public function ribbongrab(tiltpower:Int, duration:Int)
+	{
+	}
+
 	public function tetrisBlockage(duration:Float = 2.5, intensity:Float = 1)
 	{
 		tetrisTimer = new FlxTimer();
@@ -1581,6 +1585,7 @@ class PlayState extends MusicBeatState
 		} if (foundFile)
 		{
 			inCutscene = true;
+			endingSong = storyPlaylist.length <= 0;
 			var bg = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
 			bg.scrollFactor.set();
 			bg.cameras = [camHUD];
@@ -1683,6 +1688,8 @@ class PlayState extends MusicBeatState
 		senpaiEvil.screenCenter();
 		senpaiEvil.x += 300;
 
+		FlxG.sound.playMusic(Paths.music("NoFear"), 1, false);
+
 		var songName:String = Paths.formatToSongPath(SONG.song);
 		if (songName == 'roses' || songName == 'thorns')
 		{
@@ -1744,7 +1751,10 @@ class PlayState extends MusicBeatState
 					}
 				}
 				else
+				{
 					startCountdown();
+					FlxG.sound.music.fadeOut(0.3, 0);
+				}
 
 				remove(black);
 			}
@@ -3733,6 +3743,7 @@ class PlayState extends MusicBeatState
 		if (!FlxG.save.data.unlockedSongs.contains(song)) {
 			FlxG.save.data.unlockedSongs.push(song);
 			FlxG.save.flush();
+			trace(song);
 		}
 	}
 
@@ -3850,6 +3861,12 @@ class PlayState extends MusicBeatState
 						FlxG.save.flush();
 					}
 					changedDifficulty = false;
+
+					switch (curSong.toLowerCase())
+					{
+						case "salvation":
+							unlockSong("Tetris");
+					}
 				}
 				else
 				{
@@ -3904,15 +3921,6 @@ class PlayState extends MusicBeatState
 					if (!FlxG.save.data.completedSongs.contains(curSong)) {
 						FlxG.save.data.completedSongs.push(curSong);
 					}
-
-					switch (curSong.toLowerCase())
-					{
-						case "salvation":
-							unlockSong("Tetris");
-						case "tetris":
-							unlockSong("Mamigation");
-
-					}
 				}
 			}
 			else
@@ -3929,7 +3937,14 @@ class PlayState extends MusicBeatState
 				if (!FlxG.save.data.completedSongs.contains(curSong)) {
 					FlxG.save.data.completedSongs.push(curSong);
 				}
-			transitioning = true;
+				
+				switch (curSong.toLowerCase())
+				{
+					case "tetris":
+						unlockSong("Mamigation");
+
+				}
+				transitioning = true;
 			}
 			FlxG.save.flush();
 		}

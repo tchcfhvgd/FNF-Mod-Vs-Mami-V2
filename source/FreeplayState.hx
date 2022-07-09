@@ -72,7 +72,7 @@ class FreeplayState extends MusicBeatState
 		songs.push(new SongMetadata('Connect', 0, 'mami', 0xFFFFF196));
 		songs.push(new SongMetadata('Reminisce', 0, 'mami', 0xFFFFF196));
 		songs.push(new SongMetadata('Salvation', 0, 'mami-holy', 0xFFFFF196));
-		songs.push(new SongMetadata('Tetris', 0, 'mami', 0xFFFFF196));
+		songs.push(new SongMetadata('Tetris', 0, 'mami-tetris', 0xFFFFF196));
 		songs.push(new SongMetadata('Mamigation', 0, 'mami-mamigation', 0xFFFF3027));
 		//songs.push(new SongMetadata('Fate', 0, 'mami', 0xFFFFF196));
 		//songs.push(new SongMetadata('Mamigation', 0, 'mami-mamigation', 0xFFFF3027));
@@ -125,6 +125,7 @@ class FreeplayState extends MusicBeatState
 			songText.isMenuItem = true;
 			songText.targetY = i;
 			grpSongs.add(songText);
+			songText.visible = unlockedSongs.contains(songs[i].songName);
 
 			if (songText.width > 980)
 			{
@@ -154,9 +155,13 @@ class FreeplayState extends MusicBeatState
 
 			if (!unlockedSongs.contains(songs[i].songName)) 
 			{
-				var locked:FlxSprite = new FlxSprite(-350, (70 * 1)).loadGraphic(Paths.image("freeplaymenu/locked/" + songs[i].songName));
+				var locked:AttachedSprite = new AttachedSprite("freeplaymenu/locked/" + songs[i].songName);
 				locked.setGraphicSize(Std.int(locked.width * 0.5));
 				lockedSongs.add(locked);
+				locked.sprTracker = songText;
+				locked.xAdd = -450;
+				locked.yAdd = -75;
+				locked.copyVisible = false;
 			}
 		}
 		WeekData.setDirectoryFromWeek();
@@ -267,11 +272,6 @@ class FreeplayState extends MusicBeatState
 		if (FlxG.sound.music.volume < 0.7)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
-		}
-
-		for (i in 0...lockedSongs.members.length)
-		{
-			lockedSongs.members[i].y = grpSongs.members[i].y + 360;
 		}
 
 		lerpScore = Math.floor(FlxMath.lerp(lerpScore, intendedScore, CoolUtil.boundTo(elapsed * 24, 0, 1)));
