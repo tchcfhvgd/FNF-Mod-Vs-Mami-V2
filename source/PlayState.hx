@@ -2641,8 +2641,6 @@ class PlayState extends MusicBeatState
 		{
 			iconP1.swapOldIcon();
 	}*/
-		health = 100;
-
 		callOnLuas('onUpdate', [elapsed]);
 
 		switch (curStage)
