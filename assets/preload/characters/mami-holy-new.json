@@ -1,0 +1,100 @@
+{
+	"animations": [
+		{
+			"loop": false,
+			"offsets": [
+				0,
+				0
+			],
+			"anim": "idle",
+			"fps": 24,
+			"name": "IDLE instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				96,
+				-36
+			],
+			"anim": "singLEFT",
+			"fps": 24,
+			"name": "LEFT instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				128,
+				-49
+			],
+			"anim": "singRIGHT",
+			"fps": 24,
+			"name": "RIGHT instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				113,
+				-42
+			],
+			"anim": "singDOWN",
+			"fps": 24,
+			"name": "DOWN instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				143,
+				40
+			],
+			"anim": "singUP",
+			"fps": 24,
+			"name": "UP instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				0,
+				0
+			],
+			"anim": "idle-alt",
+			"fps": 24,
+			"name": "altIDLE instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				59,
+				41
+			],
+			"anim": "singUP-alt",
+			"fps": 24,
+			"name": "alt UP instance 1",
+			"indices": []
+		}
+	],
+	"no_antialiasing": false,
+	"image": "characters/HOLY_MAMI_V2",
+	"position": [
+		-220,
+		-150
+	],
+	"healthicon": "mami-holy",
+	"flip_x": false,
+	"healthbar_colors": [
+		255,
+		241,
+		150
+	],
+	"camera_position": [
+		-60,
+		90
+	],
+	"sing_duration": 4.00000000000001,
+	"scale": 1
+}
