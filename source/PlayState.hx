@@ -725,7 +725,7 @@ class PlayState extends MusicBeatState
 				rocksBack.x -= 500;
 				add(rocksBack);
 				rocksBack.scrollFactor.set(0.9, 0.9);
-				rocksBack.velocity.set(-1500, 0);
+				rocksBack.velocity.set(1150, 0);
 
 				laser = new BGSprite('bg-nevada/laser', 1273, -1006, 0.9, 0.9,['beam instance 1'], true);
 				laser.setGraphicSize(Std.int(laser.width * 1.5));
@@ -787,7 +787,7 @@ class PlayState extends MusicBeatState
 				rocksFront.y += 100;
 				add(rocksFront);
 				rocksFront.scrollFactor.set(0.9, 0.9);
-				rocksFront.velocity.set(-1500, 0);
+				rocksFront.velocity.set(-1750, 0);
 			}
 
 		#if LUA_ALLOWED
@@ -1691,7 +1691,7 @@ class PlayState extends MusicBeatState
 	{
 		inCutscene = true;
 		seenCutscene = true;
-		var black:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
+		var black:FlxSprite = new FlxSprite(-1500, -1500).makeGraphic(FlxG.width * 4, FlxG.height * 4, FlxColor.BLACK);
 		black.scrollFactor.set();
 		add(black);
 
@@ -1707,9 +1707,13 @@ class PlayState extends MusicBeatState
 		senpaiEvil.screenCenter();
 		senpaiEvil.x += 300;
 
-		FlxG.sound.playMusic(Paths.music("NoFear"), 1, false);
-
 		var songName:String = Paths.formatToSongPath(SONG.song);
+
+		if (songName == 'connect' || songName == 'reminisce')
+			{
+				FlxG.sound.playMusic(Paths.music("NoFear"), 1, true);
+			}
+
 		if (songName == 'roses' || songName == 'thorns')
 		{
 			remove(black);
@@ -1772,7 +1776,7 @@ class PlayState extends MusicBeatState
 				else
 				{
 					startCountdown();
-					FlxG.sound.music.fadeOut(0.3, 0);
+					if (FlxG.sound.music != null) FlxG.sound.music.fadeOut(0.3, 0);
 				}
 
 				remove(black);
