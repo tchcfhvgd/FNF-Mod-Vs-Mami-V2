@@ -1,5 +1,6 @@
 package;
 
+import flixel.math.FlxRandom;
 import WiggleEffect.WiggleShader;
 import flixel.addons.display.FlxBackdrop;
 import flixel.graphics.FlxGraphic;
@@ -349,12 +350,15 @@ class PlayState extends MusicBeatState
 	var isDisco:Bool = false;
 	var tetrisLight:FlxSprite;
 	var colorCycle:Int = 0;
-	var tetrisCommentsOverlay:Array<String> = ['wwwww', 'omg mami from vs mami fnf', 'wagaga', 'boyfriend fnf', '！？！？！？！？', '<みんな死ぬしかないじゃない>'];
+	var tetrisCommentsOverlay:Array<String> = ['ん？','？！','ざわ...','？','いくぞ','来たああああああ','ｷﾀ━━━━(ﾟ∀ﾟ)━━━━!!','やった','やったぁ','へぇっ！？','マジ？！','え？','すき','好き','ここすき','ここ好き','ここ大好き','ここマジですき','すげ～','すごい','すっげぇ～へへ～～～','かっこいい','カッコイイ','かっけ～','うまい','人力うまい','www','草','くさ','ｗｗｗ','かわいい','可愛い','アルパカ','アルパカｗ','アルパカさん？','明日のナージャ見れないじゃない！','知るか','マミる','カオス','sm17003341リスペクト','ソウルジェムが魔女を生むならみんな死ぬしかないじゃない','ソウルジェムが魔女を生むならみんな死ぬしかないじゃない！','死ぬしかないじゃない','死ぬしかないじゃない！','８８８８８８８８','88888888','GJ','がんばれ','頑張れ','がんばれ！','頑張れ！','BFは魔法少女じゃないよ！','生きがい','おつ','乙','おぽつ','待ってた','伸びろ','神', "I'll have this playing at my funeral!", 'If Soul Gems give birth to witches... then WE HAVE NO CHOICE BUT TO PLAY TETRIS, DO WE?!', "Don't lose your head Mami!", 'Truly a work of art', 'This has ruined Madoka', 'My reaction to this information', 'Well, Well, Well', 'This destroyed my feelings more than the original scene', 'I hate UTAU!!!!!!!!!! >:(', 'This UTAU is soo gooOOod!!!', ':)', 'I like how the end reminds you that this scene was extremely depressing', 'At least this is easier to interpret than the show itself', 'L bozo', "ratio'd", 'This is my new ringtone now.', 'LOL!', 'LMAO', 'absolute banger', 'This is forever a classic', "blue ball rn, you won't!", 'The worst FNF mod', 'The best anime FNF mod', "anyone here from Friday Night Funkin'?","I cannot believed I've watched Madoka due to this.", 'Why does it sound both sad, funny and good unironically', 'goes hard', "I'm fucking addicted", 'I keep coming back to this masterpiece', 'what has become of my life', "Bad mod, no dancing alpaca's", "Mami’s witch transformation be like:", "I'VE HAD ENOUGH OF THIS", 'I think ive watched this 48 times', 'AAAAAAAAAAAAAAAAAAAAAAAAAA', 'First video to hit 10 mamillion comments!', 'WHO THE FUCK DID THIS??!', 'I hate the madoka fandom because of this.', 'I LOVE this video <3', 'Hi Sticky, beat Salvation on Holy!', "I'm gonna sleep now", "I'm in your walls.", "It's still a certified hood classic.", 'Okay children, time to be blessed with Madoka Magica culture.', 'I stop listening to Mami Tetris for like a week, and when I come back, this is what I find. Internet, you never disappoint.', 'I T S V I B E T I M E','the moment I heard the music for this mod I immediately loved it', 'she’s basically just screaming while singing the tetris theme', 'The crowd is the bane of my existance', ":troll:", 'FINNALY , MOTHER RUSSIA GETS THE RECOGNITION HE DESERVES', 'Its the girl from the Vs Tabi Poster!', 'i love how distressed she sounds holy shit', 'I love this!', 'Get hit by a gun note', "Check out BF's icon", 'Tetris got me like:', 'my balls itch.', 'MAMI NOOOOOOOOOOOO!!'];
 	var tetrisBlock:FlxSprite;
 	var tetrisTimer:FlxTimer;
+	var tetrisCrowd:FlxSprite;
 
 	// Custom Note Vars
 	var holyNoteDmg:Float = 0.20;
+
+	var latched:Bool = false;
 
 	override public function create()
 	{
@@ -668,6 +672,20 @@ class PlayState extends MusicBeatState
 				otherBGStuff = new BGSprite('bg-subway/BGRandomshit', -530, -50, 0.9, 0.9);
 				add(otherBGStuff);
 
+				tetrisCrowd = new FlxSprite(-60, 920);
+				tetrisCrowd.frames = Paths.getSparrowAtlas('tetris/crowd', 'shared');
+				tetrisCrowd.animation.addByPrefix('cheer', "crowd", 24, true);
+				tetrisCrowd.setGraphicSize(Std.int(tetrisCrowd.width * 1));
+				tetrisCrowd.antialiasing = true;
+				tetrisCrowd.scrollFactor.set(1, 1);
+				tetrisCrowd.updateHitbox();
+				tetrisCrowd.active = true;
+				tetrisCrowd.alpha = 1;
+				tetrisCrowd.cameras = [camOther];
+				tetrisCrowd.shader = swagShader.shader;
+				add(tetrisCrowd);
+				tetrisCrowd.animation.play('cheer', true);
+
 				tetrisLight = new FlxSprite(0, 0);
 				tetrisLight.frames = Paths.getSparrowAtlas('bg-subway/tetris/connect_flash');
 				tetrisLight.animation.addByPrefix('red', "RED instance 1", 24, true);
@@ -689,6 +707,7 @@ class PlayState extends MusicBeatState
 				stageFront.shader = swagShader.shader;
 				lampPole.shader = swagShader.shader;
 				weebGorl.shader = swagShader.shader;
+				tetrisCrowd.shader = swagShader.shader;
 				otherBGStuff.shader = swagShader.shader;
 
 				GameOverSubstate.characterName = 'bf-tetris';
@@ -1136,6 +1155,7 @@ class PlayState extends MusicBeatState
 		iconP2.visible = !ClientPrefs.hideHud;
 		iconP2.alpha = ClientPrefs.healthBarAlpha;
 		add(iconP2);
+		iconP2.scale.set(1.0 + iconP2.scaleOffset, 1.0 + iconP2.scaleOffset);
 		reloadHealthBarColors();
 
 		scoreTxt = new FlxText(0, healthBarBG.y + 36, FlxG.width, "", 20);
@@ -1269,8 +1289,69 @@ class PlayState extends MusicBeatState
 	}
 
 	public function ribbongrab(tiltpower:Int, duration:Int)
-	{
-	}
+		{
+			canPause = false; //temp(hopefully) solution to people avoiding the mechanic
+			latched = true;
+			var ribbongrab:FlxSprite = new FlxSprite(1000, 520);
+			ribbongrab.frames = Paths.getSparrowAtlas('healthribbon', 'shared');
+			ribbongrab.antialiasing = true;
+			ribbongrab.animation.addByPrefix('popout', 'ribbon_show', 24, false); //ribbon pops out
+			ribbongrab.animation.addByPrefix('latch', 'ribbon_move', 24, false); //ribbon laches onto healthbar
+			ribbongrab.animation.addByPrefix('pulling', 'ribbon_dragging', 24, true); //ribbon pulling the healthbar down
+			ribbongrab.animation.addByPrefix('unlatch', 'ribbon_ungrab', 24, false); //ribbon unlaches and leaves
+			ribbongrab.setGraphicSize(Std.int(ribbongrab.width * 1.0));
+			add(ribbongrab);
+			if (FlxG.save.data.downscroll)
+				{
+					ribbongrab.flipX = true;
+					ribbongrab.flipY = true;
+					ribbongrab.x = 100;
+					ribbongrab.y = -115;
+				}
+
+			ribbongrab.animation.play('popout');
+			ribbongrab.updateHitbox();
+			ribbongrab.cameras = [camHUD];
+
+			FlxG.sound.play(Paths.sound('salvation/ribbonpull_appear','shared'));
+
+			new FlxTimer().start(1, function(tmr:FlxTimer)
+				{
+					ribbongrab.animation.play('latch', true);
+				});
+
+			new FlxTimer().start(1.35, function(tmr:FlxTimer)
+				{
+					FlxG.sound.play(Paths.sound('salvation/ribbonpull_grab','shared'));
+					new FlxTimer().start(.035, function(tmr:FlxTimer)
+						{
+							ribbongrab.animation.play('pulling');
+							camHUD.angle += 0.05;
+							
+							if (FlxG.save.data.downscroll)
+								{
+									ribbongrab.y = -20;
+								}
+
+						},tiltpower);
+				});
+
+			new FlxTimer().start(duration + 2.5, function(tmr:FlxTimer)
+				{
+					ribbongrab.animation.play('unlatch');
+					new FlxTimer().start(.25, function(tmr:FlxTimer)
+						{
+							remove(ribbongrab);
+							latched = false;
+						});
+					new FlxTimer().start(.5, function(tmr:FlxTimer)
+						{
+							remove(ribbongrab);
+							latched = false;
+							canPause = true;
+						});
+				});
+		}
 
 	public function tetrisBlockage(duration:Float = 2.5, intensity:Float = 1)
 	{
@@ -2636,9 +2717,15 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-		if (FlxG.keys.justPressed.SPACE)
+		if (!latched && camHUD.angle >= -0.005)
+			camHUD.angle /= 1.25;
+		else if (camHUD.angle <= -0.005)
+			camHUD.angle = 0;
+
+		if (latched) //salvation ribbon damage
 			{
-				tetrisComment('');
+				health -= ((camHUD.angle * 0.0003) * (elapsed * 120));
+				healthDisplay -= ((camHUD.angle * 0.0003) * (elapsed * 120));
 			}
 
 		/*if (FlxG.keys.justPressed.NINE)
@@ -2860,7 +2947,7 @@ class PlayState extends MusicBeatState
 		iconP1.scale.set(mult, mult);
 		iconP1.updateHitbox();
 
-		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+		var mult:Float = FlxMath.lerp((1 + iconP2.scaleOffset), iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, (1 + iconP2.scaleOffset)));
 		iconP2.scale.set(mult, mult);
 		iconP2.updateHitbox();
 
@@ -2882,20 +2969,30 @@ class PlayState extends MusicBeatState
 			healthDisplay = 2;
 
 		if (healthBar.percent < 25)
-		{
 			iconP1.animation.curAnim.curFrame = 1;
-			iconP2.animation.curAnim.curFrame = 2;
-		}
-		else if (healthBar.percent > 75) 
-		{
+		else if (healthBar.percent > 80)
 			iconP1.animation.curAnim.curFrame = 2;
-			iconP2.animation.curAnim.curFrame = 1;
-		}
 		else
-		{
 			iconP1.animation.curAnim.curFrame = 0;
-			iconP2.animation.curAnim.curFrame = 0;
-		}
+
+		if (iconP2.isAnimated) //ANIMATED ICONS
+			{
+				if (healthBar.percent > 80 && iconP2.animation.exists('WINNING'))
+					iconP2.animation.play('WINNING');
+				else if (healthBar.percent < 25 && iconP2.animation.exists('LOSING'))
+					iconP2.animation.play('LOSING');
+				else
+					iconP2.animation.play('WINNING');
+			}
+		else
+			{
+				if (healthBar.percent > 80)
+					iconP2.animation.curAnim.curFrame = 1;
+				else if (healthBar.percent < 25)
+					iconP2.animation.curAnim.curFrame = 2;
+				else
+					iconP2.animation.curAnim.curFrame = 0;
+			}
 
 		if (FlxG.keys.anyJustPressed(debugKeysCharacter) && !endingSong && !inCutscene)
 		{
@@ -3636,6 +3733,24 @@ class PlayState extends MusicBeatState
 
 				FlxTween.tween(camHUD, {alpha: val1}, val2, {ease: FlxEase.quadInOut});
 
+			case 'Ribbon Grab':
+				var val1:Int = Std.parseInt(value1);
+				var val2:Int = Std.parseInt(value2);
+
+				if(Math.isNaN(val1)) return;
+				if(Math.isNaN(val2)) return;
+
+				ribbongrab(val1, val2);
+
+			case 'Tetris Crowd':
+				var val1:Int = Std.parseInt(value1);
+
+				if(Math.isNaN(val1)) return;
+
+				if (tetrisCrowd != null && val1 == 1) FlxTween.tween(tetrisCrowd, {y: 300}, .5, {type: FlxTweenType.ONESHOT, ease: FlxEase.quadOut});
+
+				if (tetrisCrowd != null && val1 == 0) FlxTween.tween(tetrisCrowd, {y: 900}, .5, {type: FlxTweenType.ONESHOT, ease: FlxEase.quadOut});
+
 			case 'Health Drain Note':
 				healthDrainNoteAmt = Std.parseFloat(value1);
 				healthDrainLowestPoint = Std.parseFloat(value2);
@@ -3743,10 +3858,10 @@ class PlayState extends MusicBeatState
 			if (msg == '')
 				{
 					var message = new FlxText(1280, 0, FlxG.width, "", 72);
-					message.setFormat(Paths.font("NirmalaB.ttf"), 72, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					message.setFormat(Paths.font("tetris.ttf"), 72, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					message.scrollFactor.set();
 					message.borderSize = 0.5;
-					message.cameras = [camHUD];
+					message.cameras = [camOther];
 					message.y = FlxG.random.int(0, 720);
 					message.text = FlxG.random.getObject(tetrisCommentsOverlay, null, 0, tetrisCommentsOverlay.length);
 					message.bold = true;
@@ -5246,6 +5361,11 @@ class PlayState extends MusicBeatState
 			return;
 		}
 
+		if (curSong == 'Tetris' && FlxG.random.bool(35))
+			{
+				tetrisComment();
+			}
+
 		if (curSong == 'Tetris' && isDisco && ClientPrefs.flashing && tetrisLight != null) 
 		{
 			if (colorCycle <= 3)
@@ -5318,7 +5438,7 @@ class PlayState extends MusicBeatState
 		}
 
 		iconP1.scale.set(1.2, 1.2);
-		iconP2.scale.set(1.2, 1.2);
+		iconP2.scale.set(1.2 + iconP2.scaleOffset, 1.2 + iconP2.scaleOffset);
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();

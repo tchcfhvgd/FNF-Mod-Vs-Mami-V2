@@ -1,5 +1,6 @@
 package;
 
+import sys.FileSystem;
 #if desktop
 import Discord.DiscordClient;
 #end
@@ -345,8 +346,57 @@ class StoryMenuState extends MusicBeatState
 			PlayState.campaignMisses = 0;
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
-				LoadingState.loadAndSwitchState(new PlayState(), true);
-				FreeplayState.destroyFreeplayVocals();
+				var name = 'Connect';
+
+				#if VIDEOS_ALLOWED
+				var foundFile:Bool = false;
+				var fileName:String = #if MODS_ALLOWED Paths.modFolders('videos/' + name + '.' + Paths.VIDEO_EXT); #else ''; #end
+				#if sys
+				if (FileSystem.exists(fileName))
+				{
+					foundFile = true;
+				}
+				#end
+			
+				if (!foundFile)
+				{
+					fileName = Paths.video(name);
+					#if sys
+					if (FileSystem.exists(fileName))
+					{
+					#else
+					if (OpenFlAssets.exists(fileName))
+					{
+					#end
+						foundFile = true;
+					}
+					} if (foundFile)
+					{
+						var bgaa = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+						bgaa.scrollFactor.set();
+						add(bgaa);
+
+						var bg = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+						bg.scrollFactor.set();
+						add(bg);
+			
+						(new FlxVideo(fileName)).finishCallback = function()
+						{
+							remove(bg);
+							LoadingState.loadAndSwitchState(new PlayState(), true);
+							FreeplayState.destroyFreeplayVocals();
+						}
+						return;
+					}
+					else
+					{
+						FlxG.log.warn('Couldnt find video file: ' + fileName);
+						LoadingState.loadAndSwitchState(new PlayState(), true);
+						FreeplayState.destroyFreeplayVocals();
+					}
+					#end
+					LoadingState.loadAndSwitchState(new PlayState(), true);
+					FreeplayState.destroyFreeplayVocals();
 			});
 		} else {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -509,5 +559,5 @@ class StoryMenuState extends MusicBeatState
 		#if !switch
 		intendedScore = Highscore.getWeekScore(loadedWeeks[curWeek].fileName, curDifficulty);
 		#end
-	}
+	}	
 }
