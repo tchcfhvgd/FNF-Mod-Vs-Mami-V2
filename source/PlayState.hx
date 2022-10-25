@@ -327,7 +327,7 @@ class PlayState extends MusicBeatState
 	var weebGorl:BGSprite;
 	var gorls:BGSprite;
 	var otherBGStuff:BGSprite;
-	var connectLight:FlxSprite;
+	var connectLight:BGSprite;
 
 	// Stage: Subway (Holy)
 	var holyHomura:FlxSprite;
@@ -575,13 +575,14 @@ class PlayState extends MusicBeatState
 				gorls = new BGSprite('bg-subway/BGGirlsDance', -360, 150, 0.9, 0.9, ['girls dancing instance 1'], true);
 				add(gorls);
 
-				connectLight = new FlxSprite(0, 0).loadGraphic(Paths.image('bg-subway/connect_flash', 'shared'));
+				connectLight = new BGSprite('bg-subway/connect_flash', 0, 0, 0.0, 0.0);
 				connectLight.updateHitbox();
 				connectLight.antialiasing = true;
 				connectLight.scrollFactor.set(0, 0);
 				connectLight.active = false;
-				connectLight.alpha = 0.0;
-			// connectLight.cameras = [camOVERLAY];
+				connectLight.alpha = 0.0001;
+				add(connectLight);
+				connectLight.cameras = [camOther];
 
 			case 'subway-holy':
 				var bg:BGSprite = new BGSprite('bg-subway/BGSky', -500, -500, 0.9, 0.9);
@@ -1301,12 +1302,12 @@ class PlayState extends MusicBeatState
 			ribbongrab.animation.addByPrefix('unlatch', 'ribbon_ungrab', 24, false); //ribbon unlaches and leaves
 			ribbongrab.setGraphicSize(Std.int(ribbongrab.width * 1.0));
 			add(ribbongrab);
-			if (FlxG.save.data.downscroll)
+			if (ClientPrefs.downScroll)
 				{
 					ribbongrab.flipX = true;
 					ribbongrab.flipY = true;
 					ribbongrab.x = 100;
-					ribbongrab.y = -115;
+					ribbongrab.y = -100;
 				}
 
 			ribbongrab.animation.play('popout');
@@ -1328,7 +1329,7 @@ class PlayState extends MusicBeatState
 							ribbongrab.animation.play('pulling');
 							camHUD.angle += 0.05;
 							
-							if (FlxG.save.data.downscroll)
+							if (ClientPrefs.downScroll)
 								{
 									ribbongrab.y = -20;
 								}
@@ -1367,17 +1368,21 @@ class PlayState extends MusicBeatState
 		tetrisBlock.setGraphicSize(Std.int(tetrisBlock.width * 0.075));
 
 		add(tetrisBlock);
+		if (swagShader != null) tetrisBlock.shader = swagShader.shader;
 
-		if (FlxG.save.data.downscroll) {
-			tetrisBlock.y = 150;
-			trace(tetrisBlock.y);
+		if (ClientPrefs.downScroll) 
+		{
+			tetrisBlock.y = -225;
 		}
+		
+		trace(tetrisBlock.y);
+
 		FlxG.sound.play(Paths.sound('tetris/hpblockage_spawn','shared'));
 		FlxFlicker.flicker(tetrisBlock, 1, 0.2, true);
 		FlxG.sound.play(Paths.sound('tetris/hpblockage_move','shared'));
 		modchartTimers["tetrisTimer"].start(1 / intensity, function(tmr:FlxTimer)
 		{
-			if (FlxG.save.data.downscroll)	{
+			if (ClientPrefs.downScroll)	{
 				tetrisBlock.y -= 75;
 			} else {
 				tetrisBlock.y += 75;
@@ -1387,7 +1392,7 @@ class PlayState extends MusicBeatState
 
 			if (modchartTimers["tetrisTimer"].finished) {
 				trace("finished");
-				if (FlxG.save.data.downscroll) {
+				if (ClientPrefs.downScroll) {
 					tetrisBlock.y -= 15;
 				} else {
 					tetrisBlock.y += 15;
@@ -3782,6 +3787,15 @@ class PlayState extends MusicBeatState
 			case 'Tetris Blockage':
 				tetrisBlockage(Std.parseFloat(value1), Std.parseFloat(value2));
 
+			case 'Connect Flash':
+				{
+					if (connectLight != null)
+						{
+							connectLight.alpha = .8;
+							FlxTween.tween(connectLight, {alpha: 0}, 3, {ease: FlxEase.quartOut});
+						}
+				}
+			
 			case 'Salvation Master Event':
 				var value1:Int = Std.parseInt(value1);
 				var value2:Int = Std.parseInt(value2);
@@ -4818,6 +4832,13 @@ class PlayState extends MusicBeatState
 			camFollow.y = dad.getMidpoint().y - 100 + dad.cameraPosition[1] + camSwayY;
 			isCameraOnForcedPos = true;
 		}
+
+		//hard coded holy healthdrain
+		if (health > 0.3999 && storyDifficulty == 2)
+			{
+				health -= 0.005;
+				healthDisplay -= 0.005;
+			}
 
 		if (Paths.formatToSongPath(SONG.song) != 'tutorial')
 			camZooming = true;
