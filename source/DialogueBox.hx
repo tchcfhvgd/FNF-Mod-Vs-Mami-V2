@@ -234,7 +234,6 @@ class DialogueBox extends FlxSpriteGroup
 		swagDialogue.font = 'Korui';
 		swagDialogue.setFormat(Paths.font("koruri.ttf"), 39);
 		swagDialogue.color = 0xFF3F2021;
-		swagDialogue.sounds = [FlxG.sound.load(Paths.sound('pixelText'), 0.6)];
 		add(swagDialogue);
 
 		nameDialogue = new FlxText(225, 432, Std.int(FlxG.width * 0.5), "Mami", 39);
@@ -284,7 +283,7 @@ class DialogueBox extends FlxSpriteGroup
 					if (!isEnding)
 					{
 						isEnding = true;
-						FlxG.sound.play(Paths.sound('clickText'), 0.8);	
+						FlxG.sound.play(Paths.sound('CUTSCENE_next'), 0.8);	
 
 						if (PlayState.SONG.song.toLowerCase() == 'senpai' || PlayState.SONG.song.toLowerCase() == 'thorns')
 							FlxG.sound.music.fadeOut(1.5, 0);
@@ -323,12 +322,12 @@ class DialogueBox extends FlxSpriteGroup
 				{
 					dialogueList.remove(dialogueList[0]);
 					startDialogue();
-					FlxG.sound.play(Paths.sound('clickText'), 0.8);
+					FlxG.sound.play(Paths.sound('CUTSCENE_next'), 0.8);
 				}
 			}
 			else if (dialogueStarted)
 			{
-				FlxG.sound.play(Paths.sound('clickText'), 0.8);
+				FlxG.sound.play(Paths.sound('CUTSCENE_next'), 0.8);
 				swagDialogue.skip();
 				
 				if(skipDialogueThing != null) {

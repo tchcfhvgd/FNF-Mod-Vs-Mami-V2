@@ -1,59 +1,59 @@
 {
 	"animations": [
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"anim": "idle",
+			"loop": false,
 			"fps": 24,
-			"name": "Mami IDLE",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [
-				0,
-				0
-			],
 			"anim": "singLEFT",
-			"fps": 24,
-			"name": "Mami LEFT",
-			"indices": []
+			"indices": [],
+			"name": "Mami LEFT"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				3,
 				0
 			],
-			"anim": "singDOWN",
+			"loop": false,
 			"fps": 24,
-			"name": "Mami DOWN",
-			"indices": []
+			"anim": "singDOWN",
+			"indices": [],
+			"name": "Mami DOWN"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"anim": "singUP",
+			"loop": false,
 			"fps": 24,
-			"name": "Mami UP",
-			"indices": []
+			"anim": "singUP",
+			"indices": [],
+			"name": "Mami UP"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				-40,
 				0
 			],
-			"anim": "singRIGHT",
+			"loop": false,
 			"fps": 24,
-			"name": "Mami RIGHT",
-			"indices": []
+			"anim": "singRIGHT",
+			"indices": [],
+			"name": "Mami RIGHT"
+		},
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"indices": [],
+			"fps": 24,
+			"anim": "idle",
+			"loop": true,
+			"name": "Mami IDLE"
 		}
 	],
 	"no_antialiasing": false,
