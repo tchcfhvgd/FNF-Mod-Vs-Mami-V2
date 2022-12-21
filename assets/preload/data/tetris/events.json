@@ -1,0 +1,59 @@
+{
+	"song": {
+		"speed": 2.8,
+		"stage": "subway-tetris",
+		"player1": "bf-tetris",
+		"player2": "mami-tetris",
+		"player3": null,
+		"events": [
+			[
+				21942.8571428571,
+				[
+					[
+						"Tetris Disco",
+						"",
+						""
+					]
+				]
+			],
+			[
+				54857.1428571429,
+				[
+					[
+						"Tetris Disco",
+						"",
+						""
+					]
+				]
+			],
+			[
+				98057.1428571427,
+				[
+					[
+						"Tetris Disco",
+						"",
+						""
+					]
+				]
+			],
+			[
+				120685.714285714,
+				[
+					[
+						"Tetris Disco",
+						"",
+						""
+					]
+				]
+			]
+		],
+		"notes": [],
+		"splashSkin": null,
+		"validScore": false,
+		"gfVersion": "gf",
+		"bpm": 175,
+		"arrowSkin": "NOTE_assets_tetris",
+		"needsVoices": true,
+		"song": "Tetris"
+	}
+}

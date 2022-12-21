@@ -81,6 +81,19 @@ class CreditsState extends MusicBeatState
 		#end
 
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
+			[''],
+			['Vs Mami Team'],
+			['Fade Revamped',		'Fade Revamped',	'Lead Director, Charter, Vocalist',							'https://twitter.com/flicky_i',			'AA32FE'],
+			['Egg Overlord',		'Egg Overlord',		'Co-Director, Publisher, Art',								'https://twitter.com/gedehari',			'FF9300'],
+			['TheAwfulUsername',	'TheAwfulUsername',	'Co-Director, Vocalist, Advisory',							'https://twitter.com/polybiusproxy',	'FFEAA6'],
+			['BoinkBonk',			'BoinkBonk',		'Animator',													'https://twitter.com/Keoiki_',			'FFFFFF'],
+			['Sector',				'Sector',			'Lead Coder, General Quality Assurance, Charter',			'https://twitter.com/Smokey_5_',		'4D5DBD'],
+			['Vidz',				'Vidz',				'Coder',													'https://twitter.com/flicky_i',			'AA32FE'],
+			['Magbros',				'Magbros',			'Musician',													'https://twitter.com/gedehari',			'FF9300'],
+			['Ascenti',				'Ascenti',			'Connect Cutscene Animator',								'https://twitter.com/polybiusproxy',	'FFEAA6'],
+			['Kayo',				'Kayo',				'Musician',													'https://twitter.com/Keoiki_',			'FFFFFF'],
+			['Cerbera',				'Cerbera',			'Charter',													'https://twitter.com/Smokey_5_',		'4D5DBD'],
+			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',							'https://twitter.com/Shadow_Mario_',	'444444'],
 			['RiverOaken',			'riveroaken',		'Main Artist/Animator of Psych Engine',						'https://twitter.com/RiverOaken',		'C30085'],
@@ -131,6 +144,12 @@ class CreditsState extends MusicBeatState
 				var icon:AttachedSprite = new AttachedSprite('credits/' + creditsStuff[i][1]);
 				icon.xAdd = optionText.width + 10;
 				icon.sprTracker = optionText;
+
+				if (i < 12) {
+					icon.scale.set(0.45, 0.45);
+					icon.xAdd -= 100;
+					icon.yAdd -= 100;
+				}
 	
 				// using a FlxGroup is too much fuss!
 				iconArray.push(icon);

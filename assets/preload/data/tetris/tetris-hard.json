@@ -24,16 +24,6 @@
 				]
 			],
 			[
-				21942.8571428571,
-				[
-					[
-						"Tetris Disco",
-						"",
-						""
-					]
-				]
-			],
-			[
 				32914.2857142857,
 				[
 					[
@@ -50,16 +40,6 @@
 						"Health Drain Note",
 						"0.0125",
 						"0.1"
-					]
-				]
-			],
-			[
-				54857.1428571429,
-				[
-					[
-						"Tetris Disco",
-						"",
-						""
 					]
 				]
 			],
@@ -100,26 +80,6 @@
 						"Tetris Blockage",
 						"10",
 						"2"
-					]
-				]
-			],
-			[
-				98057.1428571427,
-				[
-					[
-						"Tetris Disco",
-						"",
-						""
-					]
-				]
-			],
-			[
-				120685.714285714,
-				[
-					[
-						"Tetris Disco",
-						"",
-						""
 					]
 				]
 			],
@@ -6324,7 +6284,7 @@
 			}
 		],
 		"player2": "mami-tetris",
-		"gfVersion": "gf",
+		"gfVersion": "gf-holy",
 		"song": "Tetris",
 		"arrowSkin": "NOTE_assets_tetris",
 		"sections": 0,

@@ -57,6 +57,7 @@ import flixel.input.keyboard.FlxKey;
 import Note.EventNote;
 import openfl.events.KeyboardEvent;
 import flixel.util.FlxSave;
+import flixel.util.FlxAxes;
 import Achievements;
 import StageData;
 import FunkinLua;
@@ -596,11 +597,11 @@ class PlayState extends MusicBeatState
 				whiteBG.alpha = 0.0;
 				add(whiteBG);
 
-				gunSwarmBack = new FlxBackdrop(Paths.image('bg-holy/HOLY_gunsbackconstant'), 1, 0, true, true);
+				gunSwarmBack = new FlxBackdrop(Paths.image('bg-holy/HOLY_gunsbackconstant'), FlxAxes.XY, 0, 0);
 				gunSwarmBack.scrollFactor.set(0.8, 0);
 				add(gunSwarmBack);
 				gunSwarmBack.velocity.set(-8500, 1500);
-				gunSwarmBack.alpha = 0.0;
+				gunSwarmBack.alpha = 1;
 
 				stageFront = new BGSprite('bg-holy/HOLY_floor', -500, 600, 0.9, 0.9);
 				add(stageFront);
@@ -624,7 +625,7 @@ class PlayState extends MusicBeatState
 				gunSwarm.updateHitbox();
 				gunSwarm.active = true;
 
-				gunSwarmFront = new FlxBackdrop(Paths.image('bg-holy/HOLY_gunsfrontconstant'), 1, 0, true, true);
+				gunSwarmFront = new FlxBackdrop(Paths.image('bg-holy/HOLY_gunsfrontconstant'), FlxAxes.XY, 0, 0);
 				gunSwarmFront.scrollFactor.set(1.1, 0);
 
 				darknessOverlay = new FlxSprite(-480, -480).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), 0xFF21102b);
@@ -721,7 +722,7 @@ class PlayState extends MusicBeatState
 				bg.updateHitbox();
 				add(bg);
 
-				rocksBack = new FlxBackdrop(Paths.image('bg-nevada/rocks_back'), 1, 0, true, false);
+				rocksBack = new FlxBackdrop(Paths.image('bg-nevada/rocks_back'), FlxAxes.X, 0, 0);
 				rocksBack.x -= 500;
 				add(rocksBack);
 				rocksBack.scrollFactor.set(0.9, 0.9);
@@ -782,7 +783,7 @@ class PlayState extends MusicBeatState
 
 		if (curStage == 'nevada')
 			{
-				rocksFront = new FlxBackdrop(Paths.image('bg-nevada/rocks_front'), 1, 0, true, false);
+				rocksFront = new FlxBackdrop(Paths.image('bg-nevada/rocks_front'), FlxAxes.X, 0, 0);
 				rocksFront.x += 100;
 				rocksFront.y += 100;
 				add(rocksFront);
@@ -2201,6 +2202,11 @@ class PlayState extends MusicBeatState
 
 		FlxG.sound.list.add(vocals);
 		FlxG.sound.list.add(new FlxSound().loadEmbedded(Paths.inst(PlayState.SONG.song)));
+
+		if (SONG.song.toLowerCase() == 'salvation')
+		{
+			camHUD.alpha = 0.0;
+		}
 
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
@@ -5412,26 +5418,24 @@ class PlayState extends MusicBeatState
 		// Too lazy to rewrite it to be better :p
 
 		if (thisBitchSnapped && curStage == 'subway-holy')
-			{
-				if (gunSwarmFront.alpha <= 0.0)
-					{
-					gunSwarmFront.alpha += 1;
-					gunSwarmBack.alpha += 1;
-					if (FlxG.save.data.flashingLights)
-						FlxG.camera.flash(FlxColor.WHITE, 3);
-					}
-				}
+		{
+			gunSwarmFront.alpha = 1;
+			gunSwarmBack.alpha = 1;
+			if (FlxG.save.data.flashingLights)
+				FlxG.camera.flash(FlxColor.WHITE, 3);
+					
+		}
 		else if (!thisBitchSnapped && curStage == 'subway-holy')
+		{
+			if (gunSwarmFront.alpha >= 0.01)
 			{
-				if (gunSwarmFront.alpha >= 0.01)
-					{
-					new FlxTimer().start(.035, function(tmr:FlxTimer)
-						{
-							gunSwarmFront.alpha -= .1;
-							gunSwarmBack.alpha -= .1;
-						},10);
-					}
+				new FlxTimer().start(.035, function(tmr:FlxTimer)
+				{
+					gunSwarmFront.alpha -= .1;
+					gunSwarmBack.alpha -= .1;
+				},10);
 			}
+		}
 
 		if (thisBitchSnapped && curStage == 'subway-holy')
 			{
