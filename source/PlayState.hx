@@ -356,6 +356,8 @@ class PlayState extends MusicBeatState
 	var tetrisTimer:FlxTimer;
 	var tetrisCrowd:FlxSprite;
 
+	public var isTetrisTime:Bool = false;
+
 	// Custom Note Vars
 	var holyNoteDmg:Float = 0.20;
 

@@ -6286,7 +6286,6 @@
 		"player2": "mami-tetris",
 		"gfVersion": "gf-holy",
 		"song": "Tetris",
-		"arrowSkin": "NOTE_assets_tetris",
 		"sections": 0,
 		"needsVoices": true,
 		"validScore": true,

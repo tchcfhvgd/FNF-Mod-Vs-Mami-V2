@@ -31,6 +31,8 @@ class Note extends FlxSprite
 	public var noteWasHit:Bool = false;
 	public var prevNote:Note;
 
+	private var curSong:String = "";
+
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
 	public var noteType(default, set):String = null;
@@ -249,12 +251,36 @@ class Note extends FlxSprite
 		if(suffix == null) suffix = '';
 		
 		var skin:String = texture;
-		if(texture.length < 1) {
-			skin = PlayState.SONG.arrowSkin;
-			if(skin == null || skin.length < 1) {
-				skin = 'NOTE_assets';
+
+		var songData = PlayState.SONG;
+		Conductor.changeBPM(songData.bpm);
+
+		curSong = songData.song;
+
+		switch(curSong)
+			{
+			case 'Tetris':
+				{
+					if(texture.length < 1) {
+						skin = PlayState.SONG.arrowSkin;
+						if(skin == null || skin.length < 1) {
+							skin = 'NOTE_assets_tetris';
+						}
+					}
+				}
+
+			 default: 
+				if(texture.length < 1) {
+					skin = PlayState.SONG.arrowSkin;
+					if(skin == null || skin.length < 1) {
+						skin = 'NOTE_assets';
+					}
+				}
 			}
-		}
+
+			trace(skin + " ("+ curSong + ")" );
+		
+
 
 		var animName:String = null;
 		if(animation.curAnim != null) {

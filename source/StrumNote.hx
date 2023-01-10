@@ -14,7 +14,9 @@ class StrumNote extends FlxSprite
 	public var direction:Float = 90;//plan on doing scroll directions soon -bb
 	public var downScroll:Bool = false;//plan on doing scroll directions soon -bb
 	public var sustainReduce:Bool = true;
-	
+
+	private var curSong:String = "";
+
 	private var player:Int;
 	
 	public var texture(default, set):String = null;
@@ -34,7 +36,20 @@ class StrumNote extends FlxSprite
 		this.noteData = leData;
 		super(x, y);
 
-		var skin:String = 'NOTE_assets';
+		var songData = PlayState.SONG;
+		Conductor.changeBPM(songData.bpm);
+		curSong = songData.song;
+		var skin:String;
+
+		switch(curSong)
+			{
+				case 'Tetris':
+					skin = 'NOTE_assets_tetris';
+
+				default: 
+					skin = 'NOTE_assets';
+			}
+
 		if(PlayState.SONG.arrowSkin != null && PlayState.SONG.arrowSkin.length > 1) skin = PlayState.SONG.arrowSkin;
 		texture = skin; //Load texture and anims
 
