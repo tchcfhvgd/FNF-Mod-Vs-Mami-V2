@@ -79,20 +79,25 @@ class CreditsState extends MusicBeatState
 			pushModCreditsToList(folder);
 		}
 		#end
-
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
 			[''],
 			['Vs Mami Team'],
-			['Fade Revamped',		'Fade Revamped',	'Lead Director, Charter, Vocalist',							'https://twitter.com/flicky_i',			'AA32FE'],
-			['Egg Overlord',		'Egg Overlord',		'Co-Director, Publisher, Art',								'https://twitter.com/gedehari',			'FF9300'],
-			['TheAwfulUsername',	'TheAwfulUsername',	'Co-Director, Vocalist, Advisory',							'https://twitter.com/polybiusproxy',	'FFEAA6'],
-			['BoinkBonk',			'BoinkBonk',		'Animator',													'https://twitter.com/Keoiki_',			'FFFFFF'],
-			['Sector',				'Sector',			'Lead Coder, General Quality Assurance, Charter',			'https://twitter.com/Smokey_5_',		'4D5DBD'],
-			['Vidz',				'Vidz',				'Coder',													'https://twitter.com/flicky_i',			'AA32FE'],
-			['Magbros',				'Magbros',			'Musician',													'https://twitter.com/gedehari',			'FF9300'],
-			['Ascenti',				'Ascenti',			'Connect Cutscene Animator',								'https://twitter.com/polybiusproxy',	'FFEAA6'],
-			['Kayo',				'Kayo',				'Musician',													'https://twitter.com/Keoiki_',			'FFFFFF'],
-			['Cerbera',				'Cerbera',			'Charter',													'https://twitter.com/Smokey_5_',		'4D5DBD'],
+			['Fade Revamped',		'Fade R',			'Lead Director, Charter, Vocalist',							'https://twitter.com/flicky_i',			'550055'],
+			['Egg Overlord',		'Egg Overlord',		'Co-Director, Publisher, Art',								'https://twitter.com/gedehari',			'FFF6D8'],
+			['TheAwfulUsername',	'TheAwfulUsername',	'Co-Director, Vocalist, Advisory',							'https://twitter.com/polybiusproxy',	'FDACA4'],
+			['Magbros',				'Magbros',			'Musician',													'https://twitter.com/gedehari',			'C5574B'],
+			['Sector',				'Sector',			'Lead Coder, General Quality Assurance, Charter',			'https://twitter.com/Smokey_5_',		'F8E0A4'],
+			['Akoy',				'Akoy',				'Musician',													'https://twitter.com/Keoiki_',			'FF9500'],
+		/* Not Icon*/['Heat',				'Heat',				'Coder',													'https://twitter.com/Keoiki_',			'FFFFFF'],
+			['HopesRei',			'HopesRei',			'Coder',													'https://twitter.com/Keoiki_',			'FAC0DE'],
+			['Ryoku',				'Ryoku',			'Vocalist, Playtester',										'https://twitter.com/Keoiki_',			'2E8FD6'],
+			['Kixel',				'Kixel',			'Artist, Animator',											'https://twitter.com/Keoiki_',			'A077C3'],
+		/* Not Icon*/['Bethdacat',			'Bethdacat',		'Artist, Animator',											'https://twitter.com/Keoiki_',			'FFFFFF'],
+			['BoinkBonk',			'BoinkBonk',		'Animator',													'https://twitter.com/Keoiki_',			'EFEEF4'],
+			['Cerbera',				'Cerbera',			'Charter',													'https://twitter.com/Smokey_5_',		'2E2A34'],
+			['Lexicord',			'noticon',			'Tetris Mami Icon',											'https://twitter.com/polybiusproxy',	'FFEAA6'],
+
+
 			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',							'https://twitter.com/Shadow_Mario_',	'444444'],
@@ -145,8 +150,9 @@ class CreditsState extends MusicBeatState
 				icon.xAdd = optionText.width + 10;
 				icon.sprTracker = optionText;
 
-				if (i < 12) {
-					icon.scale.set(0.45, 0.45);
+				if (i < 0) {
+					//icon.scale.set(0.45, 0.45);
+					icon.setGraphicSize(350);
 					icon.xAdd -= 100;
 					icon.yAdd -= 100;
 				}
@@ -224,9 +230,9 @@ class CreditsState extends MusicBeatState
 				}
 			}
 
-			if(controls.ACCEPT) {
+			/*if(controls.ACCEPT) {
 				CoolUtil.browserLoad(creditsStuff[curSelected][3]);
-			}
+			}*/
 			if (controls.BACK)
 			{
 				if(colorTween != null) {

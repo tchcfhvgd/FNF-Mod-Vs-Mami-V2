@@ -1,0 +1,39 @@
+{
+	"song": {
+		"speed": 3.6,
+		"stage": "nevada",
+		"player1": "bf",
+		"player2": "mami-mamigation",
+		"player3": null,
+		"events": [
+			[
+				0,
+				[
+					[
+						"Health Drain Note",
+						"0.02",
+						"0.4"
+					]
+				]
+			],
+			[
+				138782.608695652,
+				[
+					[
+						"Health Drain Note",
+						"0.05",
+						"0.1"
+					]
+				]
+			]
+		],
+		"notes": [],
+		"splashSkin": null,
+		"validScore": false,
+		"gfVersion": "gf",
+		"bpm": 230,
+		"arrowSkin": null,
+		"needsVoices": true,
+		"song": "Mamigation"
+	}
+}

@@ -1192,7 +1192,7 @@ class PlayState extends MusicBeatState
 		timeBar.cameras = [camHUD];
 		timeBarBG.cameras = [camHUD];
 		timeTxt.cameras = [camHUD];
-		doof.cameras = [camHUD];
+		doof.cameras = [camOther];
 
 		// if (SONG.song == 'South')
 		// FlxG.camera.alpha = 0.7;
@@ -1759,7 +1759,7 @@ class PlayState extends MusicBeatState
 			}
 			psychDialogue.nextDialogueThing = startNextDialogue;
 			psychDialogue.skipDialogueThing = skipDialogue;
-			psychDialogue.cameras = [camHUD];
+			psychDialogue.cameras = [camOther];
 			add(psychDialogue);
 		}
 		else
@@ -1784,6 +1784,11 @@ class PlayState extends MusicBeatState
 		black.scrollFactor.set();
 		add(black);
 
+
+	/*	var white:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 4, FlxG.height * 4, 0xFFFFFFFF);
+		white.alpha = 0.4;
+		white.scrollFactor.set();*/
+
 		var red:FlxSprite = new FlxSprite(-100, -100).makeGraphic(FlxG.width * 2, FlxG.height * 2, 0xFFff1b31);
 		red.scrollFactor.set();
 
@@ -1802,7 +1807,7 @@ class PlayState extends MusicBeatState
 			{
 				FlxG.sound.playMusic(Paths.music("NoFear"), 1, true);
 			}
-
+		
 		if (songName == 'roses' || songName == 'thorns')
 		{
 			remove(black);
