@@ -1,81 +1,81 @@
 {
 	"animations": [
 		{
-			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"anim": "idle",
+			"loop": false,
 			"fps": 24,
-			"name": "IDLE instance 1",
-			"indices": []
+			"anim": "idle",
+			"indices": [],
+			"name": "IDLE instance 1"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				96,
 				-36
 			],
-			"anim": "singLEFT",
+			"loop": false,
 			"fps": 24,
-			"name": "LEFT instance 1",
-			"indices": []
+			"anim": "singLEFT",
+			"indices": [],
+			"name": "LEFT instance 1"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				128,
 				-49
 			],
-			"anim": "singRIGHT",
+			"loop": false,
 			"fps": 24,
-			"name": "RIGHT instance 1",
-			"indices": []
+			"anim": "singRIGHT",
+			"indices": [],
+			"name": "RIGHT instance 1"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				113,
 				-42
 			],
-			"anim": "singDOWN",
+			"loop": false,
 			"fps": 24,
-			"name": "DOWN instance 1",
-			"indices": []
+			"anim": "singDOWN",
+			"indices": [],
+			"name": "DOWN instance 1"
 		},
 		{
-			"loop": false,
 			"offsets": [
 				143,
 				40
 			],
+			"loop": false,
+			"fps": 24,
 			"anim": "singUP",
-			"fps": 24,
-			"name": "UP instance 1",
-			"indices": []
+			"indices": [],
+			"name": "UP instance 1"
 		},
 		{
-			"loop": false,
-			"offsets": [
-				0,
-				0
-			],
-			"anim": "idle-alt",
-			"fps": 24,
-			"name": "altIDLE instance 1",
-			"indices": []
-		},
-		{
-			"loop": false,
 			"offsets": [
 				59,
 				41
 			],
-			"anim": "singUP-alt",
+			"loop": false,
 			"fps": 24,
-			"name": "alt UP instance 1",
-			"indices": []
+			"anim": "singUP-alt",
+			"indices": [],
+			"name": "alt UP instance 1"
+		},
+		{
+			"offsets": [
+				0,
+				0
+			],
+			"indices": [],
+			"fps": 24,
+			"anim": "idle-alt",
+			"loop": false,
+			"name": "altIDLE instance 1"
 		}
 	],
 	"no_antialiasing": false,
