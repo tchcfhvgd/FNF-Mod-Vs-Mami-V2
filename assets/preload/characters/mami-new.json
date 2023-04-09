@@ -1,63 +1,63 @@
 {
 	"animations": [
 		{
+			"loop": false,
 			"offsets": [
 				0,
 				0
 			],
-			"indices": [],
-			"fps": 24,
 			"anim": "idle",
-			"loop": false,
-			"name": "IDLE"
-		},
-		{
-			"offsets": [
-				230,
-				-40
-			],
-			"indices": [],
 			"fps": 24,
-			"anim": "singLEFT",
-			"loop": false,
-			"name": "LEFT"
+			"name": "IDLE instance 1",
+			"indices": []
 		},
 		{
+			"loop": false,
+			"offsets": [
+				240,
+				-11
+			],
+			"anim": "singLEFT",
+			"fps": 24,
+			"name": "LEFT instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
 			"offsets": [
 				-7,
 				-70
 			],
-			"indices": [],
-			"fps": 24,
 			"anim": "singDOWN",
-			"loop": false,
-			"name": "DOWN"
-		},
-		{
-			"offsets": [
-				0,
-				0
-			],
-			"indices": [],
 			"fps": 24,
-			"anim": "singUP",
-			"loop": false,
-			"name": "UP"
+			"name": "DOWN instance 1",
+			"indices": []
 		},
 		{
+			"loop": false,
+			"offsets": [
+				17,
+				53
+			],
+			"anim": "singUP",
+			"fps": 24,
+			"name": "UP instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
 			"offsets": [
 				-122,
-				-60
+				-52
 			],
-			"indices": [],
-			"fps": 24,
 			"anim": "singRIGHT",
-			"loop": false,
-			"name": "RIGHT"
+			"fps": 24,
+			"name": "RIGHT instance 1",
+			"indices": []
 		}
 	],
-	"no_antialiasing": false,
-	"image": "characters/Mami New",
+	"no_antialiasing": true,
+	"image": "characters/Mami_New",
 	"position": [
 		0,
 		-60

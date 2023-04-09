@@ -94,7 +94,8 @@ class ChartingState extends MusicBeatState
 		['Salvation Master Event', "Value 1: Type of event.\nValue 2: If applicable, effectiveness/duration of the event.\nVALUE 1\n1 = thisBitchSnapped Var\n2 = Blackness Effect\n3 = Bad Apple Effect\n4 = Change P2 Icon"],
 		['Connect Flash', "Connect Flash"],
 		['Tetris Blockage', "Tetris block event"],
-		['Countdown', "321"],
+		['Tetris Blockage NI', "Tetris Block But not Incremence"],
+		['Newest Countdown', "Set Countdown"],
 		['camFade', "321"]
 	];
 
