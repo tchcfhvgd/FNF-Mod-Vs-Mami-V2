@@ -1469,7 +1469,7 @@ class PlayState extends MusicBeatState
 			tetrisBlock.cameras = [camHUD];
 			tetrisBlock.antialiasing = false;
 	
-			tetrisBlock.x = healthBar.x + healthBar.width - position;
+			tetrisBlock.x = 1007 - (768 * (position / 100)) - 203;
 			tetrisBlock.y = -720;
 			tetrisBlock.setGraphicSize(Std.int(tetrisBlock.width * 0.075));
 	
@@ -1494,7 +1494,7 @@ class PlayState extends MusicBeatState
 					tetrisBlock.y += 75;
 				}
 				FlxG.sound.play(Paths.sound('tetris/hpblockage_move','shared'));
-				tetrisBlock.x = healthBar.x + healthBar.width  - position;
+				tetrisBlock.x = 1007 - (768 * (position / 100)) - 203;
 	
 				if (modchartTimers["tetrisTimer"].finished) {
 					trace("finished");
@@ -1503,8 +1503,10 @@ class PlayState extends MusicBeatState
 					} else {
 						tetrisBlock.y += 15;
 					}
-					maxHealth = health;
-					tetrisBlock.x = healthBar.x  + healthBar.width  - position;
+					maxHealth = position / 50;
+					if (health > maxHealth) health = maxHealth;
+
+					tetrisBlock.x = 1007 - (768 * (position / 100)) - 203;
 					FlxG.sound.play(Paths.sound('tetris/hpblockage_thud','shared'));
 	
 					modchartTimers["tetrisTimer"].start(duration + 2.65, function(tmr:FlxTimer)
