@@ -5920,6 +5920,10 @@ class PlayState extends MusicBeatState
 	function healthChange(amount:Float)
 	{
 		health += amount; // This tweens the health to give it a smoother movement.
+
+		if (health > maxHealth) 
+			health = maxHealth;
+
 		healthTween.cancel();
 		healthTween = FlxTween.num(healthDisplay, health, 0.2, {ease: FlxEase.expoOut}, function(v:Float)
 		{
