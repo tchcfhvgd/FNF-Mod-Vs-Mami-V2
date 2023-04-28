@@ -137,6 +137,8 @@ class PlayState extends MusicBeatState
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 
+	var mamiVersion:String;
+
 	public var vocals:FlxSound;
 
 	public var dad:Character = null;
@@ -164,7 +166,6 @@ class PlayState extends MusicBeatState
 	public var camZooming:Bool = false;
 
 	private var curSong:String = "";
-
 	public var gfSpeed:Int = 1;
 	public var health:Float = 1;
 	public var maxHealth:Float = 2;
@@ -930,7 +931,7 @@ class PlayState extends MusicBeatState
 			SONG.gfVersion = gfVersion; // Fix for the Chart Editor
 		}
 
-		var mamiVersion:String = SONG.player2;
+		mamiVersion = SONG.player2;
 		if (mamiVersion == null || gfVersion.length < 1)
 		{
 				switch(curStage)
@@ -2729,6 +2730,7 @@ class PlayState extends MusicBeatState
 
 				var newCharacter:String = event.value2;
 				addCharacterToList(newCharacter, charType);
+				
 		}
 
 		if (!eventPushedMap.exists(event.event))
@@ -5640,6 +5642,32 @@ class PlayState extends MusicBeatState
 			return;
 		}
 
+		if (curSong == 'Salvation' && curStep == 3502)
+			{
+
+			var mami:String;
+
+			if (!ClientPrefs.toggleSkin)
+				{
+					mami = 'mami-holy-tired';
+				}
+				else
+					{
+						mami = 'mami-holy-tirednew';
+					}
+
+				if(dad.curCharacter != mami) {
+					if(!dadMap.exists(mami)) {
+						addCharacterToList(mami, 1);
+					}
+					var lastAlpha:Float = dad.alpha;
+					dad.alpha = 0.00001;
+					dad = dadMap.get(mami);
+					dad.alpha = lastAlpha;
+					
+				}
+			}
+
 		lastStepHit = curStep;
 		setOnLuas('curStep', curStep);
 		callOnLuas('onStepHit', []);
@@ -6116,6 +6144,7 @@ class PlayState extends MusicBeatState
 					
 					
 				}
+
 
 	var curLight:Int = 0;
 	var curLightEvent:Int = 0;

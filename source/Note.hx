@@ -278,7 +278,7 @@ class Note extends FlxSprite
 				}
 			}
 
-			trace(skin + " ("+ curSong + ")" );
+			//trace(skin + " ("+ curSong + ")" );
 		
 
 
