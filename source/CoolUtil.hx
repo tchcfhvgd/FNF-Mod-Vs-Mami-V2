@@ -116,16 +116,11 @@ class CoolUtil
 
 	//uhhhh does this even work at all? i'm starting to doubt
 	public static function precacheSound(sound:String, ?library:String = null):Void {
-		precacheSoundFile(Paths.sound(sound, library));
+		Paths.sound(sound, library);
 	}
 
 	public static function precacheMusic(sound:String, ?library:String = null):Void {
-		precacheSoundFile(Paths.music(sound, library));
-	}
-
-	private static function precacheSoundFile(file:Dynamic):Void {
-		if (Assets.exists(file, SOUND) || Assets.exists(file, MUSIC))
-			Assets.getSound(file, true);
+		Paths.music(sound, library);
 	}
 
 	public static function browserLoad(site:String) {
@@ -134,5 +129,14 @@ class CoolUtil
 		#else
 		FlxG.openURL(site);
 		#end
+	}
+	
+	public static function showPopUp(message:String, title:String):Void
+	{
+		/*#if android
+		android.Tools.showAlertDialog(title, message, {name: "OK", func: null}, null);
+		#else*/
+		FlxG.stage.window.alert(message, title);
+		//#end
 	}
 }
