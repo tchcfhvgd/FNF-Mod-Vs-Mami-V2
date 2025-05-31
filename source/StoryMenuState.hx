@@ -368,6 +368,10 @@ class StoryMenuState extends MusicBeatState
 			return;
 		}
 
+		var bgaa = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+						bgaa.scrollFactor.set();
+						add(bgaa);
+		
 		var video:FlxVideo = new FlxVideo();
 		video.load(filepath);
 		video.play();
