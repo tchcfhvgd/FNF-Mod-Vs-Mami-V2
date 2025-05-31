@@ -475,22 +475,141 @@ class Paths
 		return modFolders('achievements/' + key + '.json');
 	}
 
-	static public function modFolders(key:String) {
-		if(currentModDirectory != null && currentModDirectory.length > 0) {
+	static public function modFolders(key:String)
+	{
+		if (currentModDirectory != null && currentModDirectory.length > 0)
+		{
 			var fileToCheck:String = mods(currentModDirectory + '/' + key);
-			if(FileSystem.exists(fileToCheck)) {
+			if (FileSystem.exists(fileToCheck))
 				return fileToCheck;
+			#if linux
+			else
+			{
+				var newPath:String = findFile(key);
+				if (newPath != null)
+					return newPath;
 			}
+			#end
+		}
+
+		for (mod in getGlobalMods())
+		{
+			var fileToCheck:String = mods(mod + '/' + key);
+			if (FileSystem.exists(fileToCheck))
+				return fileToCheck;
+			#if linux
+			else
+			{
+				var newPath:String = findFile(key);
+				if (newPath != null)
+					return newPath;
+			}
+			#end
 		}
 		return #if mobile Sys.getCwd() + #end 'mods/' + key;
 	}
-	static public function getModDirectories():Array<String> {
+
+	#if linux
+	static function findFile(key:String):String // used above ^^^^
+	{
+		var targetDir:Array<String> = key.replace('\\', '/').split('/');
+		var searchDir:String = mods(currentModDirectory + '/' + targetDir[0]);
+		targetDir.remove(targetDir[0]);
+
+		for (x in targetDir)
+		{
+			if (x == '')
+				continue;
+			var newPart:String = findNode(searchDir, x);
+			if (newPart != null)
+			{
+				searchDir += '/' + newPart;
+			}
+			else
+				return null;
+		}
+		// trace('MATCH WITH $key! RETURNING $searchDir');
+		return searchDir;
+	}
+
+	static function findNode(dir:String, key:String):String
+	{
+		var allFiles:Array<String> = null;
+		try
+		{
+			allFiles = FileSystem.readDirectory(dir);
+		}
+		catch (e)
+		{
+			return null;
+		}
+
+		var allSearchies:Array<String> = allFiles.map(s -> s.toLowerCase());
+		for (i => name in allSearchies)
+		{
+			if (key.toLowerCase() == name)
+			{
+				return allFiles[i];
+			}
+		}
+		return null;
+	}
+	#end
+
+	public static var globalMods:Array<String> = [];
+
+	static public function getGlobalMods()
+		return globalMods;
+
+	static public function pushGlobalMods() // prob a better way to do this but idc
+	{
+		globalMods = [];
+		var path:String = #if mobile Sys.getCwd() + #end 'modsList.txt';
+		if (FileSystem.exists(path))
+		{
+			var list:Array<String> = CoolUtil.coolTextFile(path);
+			for (i in list)
+			{
+				var dat = i.split("|");
+				if (dat[1] == "1")
+				{
+					var folder = dat[0];
+					var path = Paths.mods(folder + '/pack.json');
+					if (FileSystem.exists(path))
+					{
+						try
+						{
+							var rawJson:String = File.getContent(path);
+							if (rawJson != null && rawJson.length > 0)
+							{
+								var stuff:Dynamic = Json.parse(rawJson);
+								var global:Bool = Reflect.getProperty(stuff, "runsGlobally");
+								if (global)
+									globalMods.push(dat[0]);
+							}
+						}
+						catch (e:Dynamic)
+						{
+							trace(e);
+						}
+					}
+				}
+			}
+		}
+		return globalMods;
+	}
+
+	static public function getModDirectories():Array<String>
+	{
 		var list:Array<String> = [];
 		var modsFolder:String = mods();
-		if(FileSystem.exists(modsFolder)) {
-			for (folder in FileSystem.readDirectory(modsFolder)) {
+		if (FileSystem.exists(modsFolder))
+		{
+			for (folder in FileSystem.readDirectory(modsFolder))
+			{
 				var path = haxe.io.Path.join([modsFolder, folder]);
-				if (sys.FileSystem.isDirectory(path) && !ignoreModFolders.contains(folder) && !list.contains(folder)) {
+				if (sys.FileSystem.isDirectory(path) && !ignoreModFolders.contains(folder) && !list.contains(folder))
+				{
 					list.push(folder);
 				}
 			}
