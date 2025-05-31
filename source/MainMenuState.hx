@@ -262,6 +262,8 @@ class MainMenuState extends MusicBeatState
 		#end
 
 		super.create();
+		
+		addTouchPad("UP_DOWN", "A_B");
 	}
 
 	#if ACHIEVEMENTS_ALLOWED

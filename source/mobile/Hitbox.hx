@@ -136,14 +136,6 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		hint.statusIndicatorType = NONE;
 		hint.loadGraphic(createHintGraphic(Width, Height));
 
-		hint.label = new FlxSprite();
-		hint.labelStatusDiff = (ClientPrefs.hitboxType != "Hidden") ? ClientPrefs.controlsAlpha : 0.00001;
-		hint.label.loadGraphic(createHintGraphic(Width, Math.floor(Height * 0.035), true));
-		if (ClientPrefs.hitboxPos)
-			hint.label.offset.y -= (hint.height - hint.label.height) / 2;
-		else
-			hint.label.offset.y += (hint.height - hint.label.height) / 2;
-
 		if (ClientPrefs.hitboxType != "Hidden")
 		{
 			var hintTween:FlxTween = null;
@@ -162,11 +154,6 @@ class Hitbox extends MobileInputManager implements IMobileControls
 					ease: FlxEase.circInOut,
 					onComplete: (twn:FlxTween) -> hintTween = null
 				});
-
-				hintLaneTween = FlxTween.tween(hint.label, {alpha: 0.00001}, ClientPrefs.controlsAlpha / 10, {
-					ease: FlxEase.circInOut,
-					onComplete: (twn:FlxTween) -> hintTween = null
-				});
 			}
 
 			hint.onOut.callback = hint.onUp.callback = function()
@@ -182,11 +169,6 @@ class Hitbox extends MobileInputManager implements IMobileControls
 					ease: FlxEase.circInOut,
 					onComplete: (twn:FlxTween) -> hintTween = null
 				});
-
-				hintLaneTween = FlxTween.tween(hint.label, {alpha: ClientPrefs.controlsAlpha}, ClientPrefs.controlsAlpha / 100, {
-					ease: FlxEase.circInOut,
-					onComplete: (twn:FlxTween) -> hintTween = null
-				});
 			}
 		}
 		else
@@ -198,9 +180,8 @@ class Hitbox extends MobileInputManager implements IMobileControls
 		hint.immovable = hint.multiTouch = true;
 		hint.solid = hint.moves = false;
 		hint.alpha = 0.00001;
-		hint.label.alpha = (ClientPrefs.hitboxType != "Hidden") ? ClientPrefs.controlsAlpha : 0.00001;
-		hint.canChangeLabelAlpha = false;
-		hint.label.antialiasing = hint.antialiasing = ClientPrefs.globalAntialiasing;
+		hint.canChangeLabelAlpha = true;
+		hint.antialiasing = ClientPrefs.globalAntialiasing;
 		hint.color = Color;
 		#if FLX_DEBUG
 		hint.ignoreDrawDebug = true;
